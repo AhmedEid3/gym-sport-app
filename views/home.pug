@@ -1,0 +1,80 @@
+doctype html
+html(lang='en')
+    include _header
+    body
+        include _navbar
+        .container
+            h1.h1.text-center.mt-3 GYM Sport APP
+            .row.justify-content-center.text-center
+                .col-md-6.col-lg-4
+                    .card.text-white.text-center.bg-primary.mb-3
+                        .card-header Total Members
+                        .card-body
+                            h5.card-title 100
+                .w-100
+                .col-md-5.col-lg-3
+                    .card.text-white.bg-success.mb-3
+                        .card-header Active Memberships
+                        .card-body
+                            h5.card-title 90
+                .col-md-5.col-lg-3
+                    .card.text-white.bg-danger.mb-3
+                        .card-header Not-Active Memberships
+                        .card-body
+                            h5.card-title 10
+                .col-md-5.col-lg-3
+                    .card.text-white.bg-success.mb-3
+                        .card-header Active Monthly
+                        .card-body
+                            h5.card-title 85
+                .col-md-5.col-lg-3
+                    .card.text-white.bg-danger.mb-3
+                        .card-header Not-Active Monthly
+                        .card-body
+                            h5.card-title 5
+        .container-fluid
+            .table-responsive
+                table#example.table.table-hover.table-striped.table-bordered
+                    thead.thead-dark
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Id Member
+                            th(scope='col') Name
+                            th(scope='col') State subscription
+                            th(scope='col') Session numbers
+                            th(scope='col') Session current
+                            th(scope='col') Session rest
+                            th(scope='col') Show member
+                    tbody
+                        tr
+                            th(scope='row') 1
+                            td 1258963
+                            td Ahmed Eid Mohamed Ali
+                            td Active
+                            td 12
+                            td 7
+                            td 5
+                            td
+                                button.btn.btn-primary Show member
+                        tr
+                            th(scope='row') 2
+                            td 951258963
+                            td Eman Eid Mohamed Ali
+                            td Active
+                            td 12
+                            td 8
+                            td 4
+                            td
+                                button.btn.btn-primary Show member
+                        tr
+                            th(scope='row') 3
+                            td 125458963
+                            td Mohamed Eid Mohamed Ali
+                            td Active
+                            td 12
+                            td 2
+                            td 10
+                            td
+                                button.btn.btn-primary Show member
+
+        include _scripts

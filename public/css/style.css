@@ -1,0 +1,28 @@
+.state-member {
+  width: 100px;
+  height: 100px;
+
+  border-radius: 5px;
+
+  font-size: 25px;
+  line-height: 100px;
+  margin: auto;
+  text-align: center;
+}
+
+.alert {
+    margin-bottom: 0;
+  }
+
+/*admin*/
+.circle {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 25px;
+  margin: 10px auto;
+}

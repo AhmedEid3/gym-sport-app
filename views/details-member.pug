@@ -1,0 +1,93 @@
+doctype html
+html(lang='en')
+    include _header
+
+    body
+        include _navbar
+        .container
+            .card.mt-5
+                .card-header
+                    | Details member
+                .card-body
+                    .row
+                        .col-8
+                            .row.text-center.justify-content-center
+                                .col-7
+                                    h5.card-title Number Membership
+                                    .alert.alert-primary(role='alert')
+                                        strong 256985
+                            .details
+                                .row.align-items-center
+                                    .col-auto
+                                        | Name:
+                                    .col Ahmed Eid Mohamed Ali
+                                    .w-100
+                                    .col-auto
+                                        | Status Subscription:
+                                    .col-2
+                                        .alert.alert-success(role='alert')
+                                            strong Active
+                                    .w-100
+                                    .col-auto
+                                        | session number
+                                    .col-auto
+                                        .alert.alert-primary(role='alert')
+                                            strong 12
+                                    .col-auto
+                                        | current
+                                    .col-auto
+                                        .alert.alert-danger(role='alert')
+                                            strong 7
+                                    .col-auto
+                                        | rest
+                                    .col-auto
+                                        .alert.alert-success(role='alert')
+                                            strong 5
+                                    .w-100
+                                    .col-auto
+                                        button.btn.btn-primary  Show History
+                        .col-4.text-center
+                            .row.h-100
+                                .col-12
+                                    h5 State Member
+                                    .state-member.alert-success
+                                        | Active
+                                .col-auto Date membership
+                                .col 2020-01-01
+                                .w-100
+                                .col-auto End membership
+                                .col 2021-01-01
+                                .w-100
+                                .col-auto.ml-auto.align-self-end
+                                    button.btn.btn-primary  Edit/ Renew
+            hr
+            .current-history
+                table.table.table-hover.table-striped.table-bordered
+                    thead.thead-dark
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Start Month
+                            th(scope='col') End Month
+                            th(scope='col') Session numbers
+                            th(scope='col') Session Total
+                    tbody
+                        tr
+                            th(scope='row') 1
+                            td Mark
+                            td Otto
+                            td @mdo
+                            td @mdo
+                        tr
+                            th(scope='row') 2
+                            td Jacob
+                            td Thornton
+                            td @fat
+                            td @fat
+                        tr
+                            th(scope='row') 3
+                            td Jacob
+                            td Thornton
+                            td @fat
+                            td @fat
+
+        include _scripts

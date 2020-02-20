@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+    include _header
+
+    body
+        include _navbar
+        .container
+            h1.h1 Edit member
+            form
+                .form-group
+                    label(for='firstName') First Name
+                    input#firstName.form-control(type='text')
+                .form-group
+                    label(for='lastName') Last Name
+                    input#lastName.form-control(type='text')
+                .form-group
+                    label(for='clientID') Client ID
+                    input#clientID.form-control(type='number')
+                .form-group
+                    label(for='startMember') Start Member Date
+                    input#startMember.form-control(type='date')
+                .form-group
+                    label(for='endMember') End Member Date
+                    input#endMember.form-control(type='date')
+                button.btn.btn-danger.mr-5(type='reset') Back
+                button.btn.btn-primary(type='submit') Save
+
+        include _scripts
