@@ -15,12 +15,12 @@ html(lang='en')
                                 .col-7
                                     h5.card-title Number Membership
                                     .alert.alert-primary(role='alert')
-                                        strong 256985
+                                        strong= details.clientId
                             .details
                                 .row.align-items-center
                                     .col-auto
                                         | Name:
-                                    .col Ahmed Eid Mohamed Ali
+                                    .col= (details.firstName + ' ' + details.lastName) 
                                     .w-100
                                     .col-auto
                                         | Status Subscription:
@@ -46,18 +46,21 @@ html(lang='en')
                                     .w-100
                                     .col-auto
                                         button.btn.btn-primary  Show History
-                        .col-4.text-center
+                        .col-4.text-center.border-left-1
                             .row.h-100
                                 .col-12
                                     h5 State Member
                                     .state-member.alert-success
                                         | Active
                                 .col-auto Date membership
-                                .col 2020-01-01
+                                .col= details.startMemberDate
                                 .w-100
                                 .col-auto End membership
-                                .col 2021-01-01
+                                .col= details.endMemberDate
                                 .w-100
+                                .col-auto.mr-auto.align-self-end
+                                    form(action="/delete-member", method="post")
+                                        input.btn.btn-danger(type='submit', value='Delete Member')
                                 .col-auto.ml-auto.align-self-end
                                     button.btn.btn-primary  Edit/ Renew
             hr
@@ -69,25 +72,13 @@ html(lang='en')
                             th(scope='col') Start Month
                             th(scope='col') End Month
                             th(scope='col') Session numbers
-                            th(scope='col') Session Total
                     tbody
-                        tr
-                            th(scope='row') 1
-                            td Mark
-                            td Otto
-                            td @mdo
-                            td @mdo
-                        tr
-                            th(scope='row') 2
-                            td Jacob
-                            td Thornton
-                            td @fat
-                            td @fat
-                        tr
-                            th(scope='row') 3
-                            td Jacob
-                            td Thornton
-                            td @fat
-                            td @fat
+                        each val in subscribe
+                            tr
+                                td= details.clientId
+                                td= val.startMonth
+                                td= endMonth.endMonth
+                                td= val.sessionsNumber
+                    
 
         include _scripts

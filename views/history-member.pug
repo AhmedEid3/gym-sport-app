@@ -15,12 +15,12 @@ html(lang='en')
                                 .col-7
                                     h5.card-title Number Membership
                                     .alert.alert-primary(role='alert')
-                                        strong 256985
+                                        strong= details.clientId
                             .details
                                 .row.align-items-center
                                     .col-auto
                                         | Name:
-                                    .col Ahmed Eid Mohamed Ali
+                                    .col= (details.firstName + ' ' + details.lastName)
                                     .w-100
                                     .col-auto
                                         | Status Subscription:
@@ -42,26 +42,12 @@ html(lang='en')
                             th(scope='col') Start Month
                             th(scope='col') End Month
                             th(scope='col') Session numbers
-                            th(scope='col') Session Total
                     tbody
-                        tr
-                            th(scope='row') 1
-                            td Mark
-                            td Otto
-                            td @mdo
-                            td @mdo
-                        tr
-                            th(scope='row') 2
-                            td Jacob
-                            td Thornton
-                            td @fat
-                            td @fat
-                        tr
-                            th(scope='row') 3
-                            td Jacob
-                            td Thornton
-                            td @fat
-                            td @fat
-
+                        each val in subscribe
+                            tr
+                                td= details.clientId
+                                td= val.startMonth
+                                td= endMonth.endMonth
+                                td= val.sessionsNumber
 
         include _scripts

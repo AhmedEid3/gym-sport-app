@@ -1,118 +1,66 @@
-const sqlite3 = require("sqlite3").verbose();
-const databasePath = './db/gym-app.db';
-const express = require('express');
+const {
+  changePasswordAdmin,
+  registerNewMember,
+  editMember,
+  deleteMember,
+  detailsMember,
+  historyMember,
+  homePage
+} = require("./model");
+const express = require("express");
 const app = express();
 const port = 80;
 
-app.use(express.urlencoded({extended: true}));
-app.use(express.static('public'));
-app.set('view engine', 'pug');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.set("view engine", "pug");
 
+const titleBase = " | GYM App";
 
-const titleBase = ' | GYM App';
-app.get('/', (req, res) => {
-    res.render('home', {title: `Home Page ${titleBase}`})
+// Get Home Page
+app.get("/", (req, res) => {
+  homePage(req, res);
 });
 
-app.get('/admin', (req, res) => {
-    res.render('admin', {title: `admin Page ${titleBase}`});
+// Get and Change password admin
+app.get("/admin", (req, res) => {
+  res.render("admin", { title: `admin Page ${titleBase}` });
+});
+app.post("/admin", (req, res) => {
+  changePasswordAdmin(req, res);
 });
 
-app.post('/admin', (req, res) => {
-    // open the database
-    let db = openDatabase();
-
-    // update database
-    const sql = `UPDATE 
-                    admin
-                SET 
-                    userName = '${req.body.userName}',
-                    password = '${req.body.password}' 
-                WHERE 
-                    adminId = 1 AND
-                    password = '${req.body.oldPassword}'` ;
-
-    db.serialize(()=>{
-        db.run(sql, function (err) {
-
-            if (err) {
-                console.error(err.message);
-                return res.send('Faild!!');
-            }
-            res.send('succes');
-        });
-
-    });
-
-    //close database
-    closeDatabase(db);
+// register new member
+app.get("/register-member", (req, res) => {
+  res.render("register-member", { title: `register-member Page ${titleBase}` });
+});
+app.post("/register-member", (req, res) => {
+  registerNewMember(req, res);
 });
 
-app.get('/details-member', (req, res) => {
-    res.render('details-member', {title: `details-member ${titleBase}`});
+// Edit member
+app.get("/edit-member/:id", (req, res) => {
+  res.render("edit-member", {
+    title: `edit-member Page ${titleBase}`
+  });
+});
+app.post("/edit-member/", (req, res) => {
+  editMember(req, res);
 });
 
-app.get('/edit-member', (req, res) => {
-    res.render('edit-member', {title: `edit-member Page ${titleBase}`});
+// Delete member
+app.post("/delete-member", (req, res) => {
+  deleteMember(req, res);
 });
 
-app.get('/history-member', (req, res) => {
-    res.render('history-member', {title: `history-member Page ${titleBase}`});
+// Details member
+app.get("/details-member/:clientId", (req, res) => {
+  detailsMember(req, res);
 });
 
-app.get('/register-member', (req, res) => {
-    res.render('register-member', {title: `register-member Page ${titleBase}`});
+// History member
+app.get("/history-member/:clientId", (req, res) => {
+  historyMember(req, res);
 });
-app.post('/register-member', (req, res) => {
-    // open the database
-    let db = openDatabase();
-    let id = +req.body.clientId;
-    // update database
-    const sql = `
-                INSERT INTO 
-                    client(clientId, firstName, lastName, startMemberDate, endMemberDate)
-                VALUES(${id},'${req.body.firstName}','${req.body.lastName}',
-                        '${req.body.startMemberDate}','${req.body.endMemberDate}')
-` ;
 
-    db.serialize(()=>{
-        db.run(sql, function (err) {
-            console.log(req.body, typeof id, id);
-            if (err) {
-                console.error(err.message);
-                return res.send('Faild!!');
-            }
-            res.send('register');
-        });
-
-    });
-
-    //close database
-    closeDatabase(db);
-});
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-
-// open database
-function openDatabase() {
-    return new sqlite3.Database(
-        databasePath,
-        sqlite3.OPEN_READWRITE,
-        err => {
-            if (err) {
-                return console.error(err.message);
-            }
-            console.log("Connected to the chinook database.");
-        }
-    );
-}
-
-// close database
-function closeDatabase(db) {
-    db.close(err => {
-        if (err) {
-            console.error(err.message);
-        }
-        console.log("Closed database connection.");
-    });
-}

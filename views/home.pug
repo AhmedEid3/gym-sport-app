@@ -10,7 +10,7 @@ html(lang='en')
                     .card.text-white.text-center.bg-primary.mb-3
                         .card-header Total Members
                         .card-body
-                            h5.card-title 100
+                            h5.card-title #{details.length}
                 .w-100
                 .col-md-5.col-lg-3
                     .card.text-white.bg-success.mb-3
@@ -46,35 +46,17 @@ html(lang='en')
                             th(scope='col') Session rest
                             th(scope='col') Show member
                     tbody
-                        tr
-                            th(scope='row') 1
-                            td 1258963
-                            td Ahmed Eid Mohamed Ali
-                            td Active
-                            td 12
-                            td 7
-                            td 5
-                            td
-                                button.btn.btn-primary Show member
-                        tr
-                            th(scope='row') 2
-                            td 951258963
-                            td Eman Eid Mohamed Ali
-                            td Active
-                            td 12
-                            td 8
-                            td 4
-                            td
-                                button.btn.btn-primary Show member
-                        tr
-                            th(scope='row') 3
-                            td 125458963
-                            td Mohamed Eid Mohamed Ali
-                            td Active
-                            td 12
-                            td 2
-                            td 10
-                            td
-                                button.btn.btn-primary Show member
+                        each value, index in details
+                            tr
+                                th(scope='row') #{index + 1}
+                                td= value.clientId
+                                td= value.firstName + ' ' + value.lastName
+                                td Active
+                                td= 36
+                                td= 77
+                                td= 77
+                                td
+                                    a(href='/details-member/'+value.clientId).btn.btn-primary Show member
+                        
 
         include _scripts
