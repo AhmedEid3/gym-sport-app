@@ -9,22 +9,24 @@ html(lang='en')
             form(action='/edit-member' method='post')
                 .form-group
                     label(for='firstName') First Name
-                    input#firstName.form-control(type='text', name='firstName')
+                    input#firstName.form-control(type='text', name='firstName', value=clientInfo.firstName)
                 .form-group
                     label(for='lastName') Last Name
-                    input#lastName.form-control(type='text', name='lastName')
+                    input#lastName.form-control(type='text', name='lastName', value=clientInfo.lastName)
                 .form-group
-                    label(for='clientId') Client ID
-                    input#clientId.form-control(type='number', name='clientId')
+                    label Client ID
+                    label#clientId.form-control=clientInfo.clientId
+                .form-group
+                    input#newClientId.form-control(type='hidden', name='clientId', value=clientInfo.clientId)
                 .form-group
                     label(for='newClientId') New Client ID
                     input#newClientId.form-control(type='number', name='newClientId')
                 .form-group
-                    label(for='startMemberDate') Start Member Date
-                    input#startMemberDate.form-control(type='date', name='startMemberDate')
+                    label(for='membershipStartingDate') Membership Starting Date
+                    input#membershipStartingDate.form-control(type='date', name='membershipStartingDate', value=new Date(clientInfo.membershipStartingDate).toISOString().slice(0,10))
                 .form-group
-                    label(for='endMemberDate') End Member Date
-                    input#endMemberDate.form-control(type='date', name='endMemberDate')
+                    label(for='membershipExpiryDate') Membership Expiry Date
+                    input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate', value=new Date(clientInfo.membershipExpiryDate).toISOString().slice(0,10))
                 button.btn.btn-danger.mr-5(type='reset') Back
                 button.btn.btn-primary(type='submit') Save
 

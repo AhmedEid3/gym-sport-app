@@ -5,8 +5,11 @@ const {
   deleteMember,
   detailsMember,
   historyMember,
-  homePage
-} = require("./model");
+  homePage,
+  getEditMember,
+  newSession,
+  remainSession
+} = require("./routes");
 const express = require("express");
 const app = express();
 const port = 80;
@@ -39,10 +42,8 @@ app.post("/register-member", (req, res) => {
 });
 
 // Edit member
-app.get("/edit-member/:id", (req, res) => {
-  res.render("edit-member", {
-    title: `edit-member Page ${titleBase}`
-  });
+app.get("/edit-member/:clientId", (req, res) => {
+  getEditMember(req, res);
 });
 app.post("/edit-member/", (req, res) => {
   editMember(req, res);
@@ -58,9 +59,19 @@ app.get("/details-member/:clientId", (req, res) => {
   detailsMember(req, res);
 });
 
+// add newSession
+app.post("/new-session/", (req, res) => {
+  newSession(req, res);
+});
+
+// Remaining Session
+app.post("/remain-session/", (req, res) => {
+  remainSession(req, res);
+});
+
 // History member
 app.get("/history-member/:clientId", (req, res) => {
   historyMember(req, res);
 });
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.listen(port, () => console.log(`GYM app listening on port ${port}!`));

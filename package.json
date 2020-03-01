@@ -12,6 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.20.10",
+    "mongoose": "^5.9.2",
     "pug": "^2.0.4",
     "sqlite3": "^4.1.1"
   }

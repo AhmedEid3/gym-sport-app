@@ -4,37 +4,37 @@ html(lang='en')
     body
         include _navbar
         .container
-            h1.h1.text-center.mt-3 GYM Sport APP
-            .row.justify-content-center.text-center
-                .col-md-6.col-lg-4
+            .row.justify-content-center.text-center.mt-3
+                .col-md-6.col-lg-auto
                     .card.text-white.text-center.bg-primary.mb-3
                         .card-header Total Members
                         .card-body
-                            h5.card-title #{details.length}
-                .w-100
-                .col-md-5.col-lg-3
+                            h5.card-title #{membersActive.length + membersExpired.length}
+
+                .col-md-5.col-lg-auto
                     .card.text-white.bg-success.mb-3
                         .card-header Active Memberships
                         .card-body
                             h5.card-title 90
-                .col-md-5.col-lg-3
+                .col-md-5.col-lg-auto
                     .card.text-white.bg-danger.mb-3
                         .card-header Not-Active Memberships
                         .card-body
                             h5.card-title 10
-                .col-md-5.col-lg-3
+                .col-md-5.col-lg-auto
                     .card.text-white.bg-success.mb-3
                         .card-header Active Monthly
                         .card-body
-                            h5.card-title 85
-                .col-md-5.col-lg-3
+                            h5.card-title #{membersActive.length}
+                .col-md-5.col-lg-auto
                     .card.text-white.bg-danger.mb-3
                         .card-header Not-Active Monthly
                         .card-body
-                            h5.card-title 5
+                            h5.card-title #{membersExpired.length}
+
         .container-fluid
             .table-responsive
-                table#example.table.table-hover.table-striped.table-bordered
+                table.example.table.table-hover.table-striped.table-bordered
                     thead.thead-dark
                         tr
                             th(scope='col') #
@@ -44,17 +44,51 @@ html(lang='en')
                             th(scope='col') Session numbers
                             th(scope='col') Session current
                             th(scope='col') Session rest
+                            th(scope='col') Start Month
+                            th(scope='col') Current Date
                             th(scope='col') Show member
                     tbody
-                        each value, index in details
+                        each value, index in membersActive
                             tr
                                 th(scope='row') #{index + 1}
                                 td= value.clientId
                                 td= value.firstName + ' ' + value.lastName
-                                td Active
-                                td= 36
-                                td= 77
-                                td= 77
+                                td
+                                    .alert.alert-success.text-center Active
+                                td= value.sessionsNumber
+                                td= value.trainNumbers
+                                td #{(value.sessionsNumber - value.trainNumbers)}
+                                td= value.startMonth
+                                td= value.currentDate
+                                td
+                                    a(href='/details-member/'+value.clientId).btn.btn-primary Show member
+        hr                
+        .container-fluid
+            .table-responsive
+                table.example.table.table-hover.table-striped.table-bordered
+                    thead.thead-dark
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Id Member
+                            th(scope='col') Name
+                            th(scope='col') State subscription
+                            th(scope='col') Session numbers
+                            th(scope='col') Session current
+                            th(scope='col') Session rest
+                            th(scope='col') End subscription
+                            th(scope='col') Show member
+                    tbody
+                        each value, index in membersExpired
+                            tr
+                                th(scope='row') #{index + 1}
+                                td= value.clientId
+                                td= value.firstName + ' ' + value.lastName
+                                td
+                                    .alert.alert-danger.text-center Expired
+                                td 77
+                                td 55
+                                td 55
+                                td= value.endMonth
                                 td
                                     a(href='/details-member/'+value.clientId).btn.btn-primary Show member
                         

@@ -1,3 +1,5 @@
+
+    
 doctype html
 html(lang='en')
     include _header
@@ -11,74 +13,216 @@ html(lang='en')
                 .card-body
                     .row
                         .col-8
-                            .row.text-center.justify-content-center
+                            .row.text-center
                                 .col-7
-                                    h5.card-title Number Membership
-                                    .alert.alert-primary(role='alert')
-                                        strong= details.clientId
+                                    .row
+                                        .col-auto
+                                            h5.card-title Member ID
+                                        .col
+                                            .alert.alert-primary(role='alert')
+                                                strong.clientID #{details.clientId}
                             .details
                                 .row.align-items-center
                                     .col-auto
                                         | Name:
-                                    .col= (details.firstName + ' ' + details.lastName) 
+                                    .col= (`${details.firstName} ${details.lastName}`) 
                                     .w-100
                                     .col-auto
                                         | Status Subscription:
-                                    .col-2
-                                        .alert.alert-success(role='alert')
-                                            strong Active
+                                    .col-auto
+                                        if !details.statusMonthly
+                                            .alert.alert-danger(role='alert')
+                                                strong  (You have to add new session) 
+                                        else
+                                            .alert.alert-success(role='alert')
+                                                strong Active
+
+                                    .w-100
+                                    
+                                    if !details.endSubscriptionMonthly
+                                        //- .col Expired
+                                    else
+                                        .col-auto Start Date Monthly
+                                        .col #{details.startSubscriptionMonthly.toISOString()}
+
+                                    .w-100
+                                    
+        
+                                    if !details.endSubscriptionMonthly
+                                        //- .col Expired
+                                    else
+                                        .col-auto End Date Monthly
+                                        .col #{details.endSubscriptionMonthly.toISOString()}
+                                    .w-100
+                                    if !details.endSubscriptionMonthly
+                                        //- .col-auto
+                                        //-     | session number
+                                        //- .col-auto
+                                        //-     .alert.alert-danger(role='alert')
+                                        //-         strong Expired Monthly
+                                    else
+                                        .col-auto
+                                            | Total Sessions
+                                        .col-auto
+                                            .alert.alert-primary(role='alert')
+                                                strong #{details.totalSessions} 
+                                        .col-auto
+                                            | current
+                                        .col-auto
+                                            .alert.alert-danger(role='alert')
+                                                strong #{details.currentSession}
+                                        .col-auto
+                                            | rest
+                                        .col-auto
+                                            .alert.alert-success(role='alert')
+                                                strong #{ details.restSession}
                                     .w-100
                                     .col-auto
-                                        | session number
-                                    .col-auto
-                                        .alert.alert-primary(role='alert')
-                                            strong 12
-                                    .col-auto
-                                        | current
-                                    .col-auto
-                                        .alert.alert-danger(role='alert')
-                                            strong 7
-                                    .col-auto
-                                        | rest
-                                    .col-auto
-                                        .alert.alert-success(role='alert')
-                                            strong 5
-                                    .w-100
-                                    .col-auto
-                                        button.btn.btn-primary  Show History
+                                        a(href=`/history-member/${details.clientId}`).btn.btn-primary  Show History
                         .col-4.text-center.border-left-1
-                            .row.h-100
+                            h5 State Member
+                            .row
                                 .col-12
-                                    h5 State Member
-                                    .state-member.alert-success
-                                        | Active
+                                    if !details.statusMembership
+                                        .state-member.alert-danger
+                                            | Expired 
+                                    else
+                                        .state-member.alert-success
+                                            | Active
                                 .col-auto Date membership
-                                .col= details.startMemberDate
+   
+                                .col= details.membershipStartingDate.toISOString()
                                 .w-100
                                 .col-auto End membership
-                                .col= details.endMemberDate
+                                .col= details.membershipExpiryDate.toISOString()
                                 .w-100
                                 .col-auto.mr-auto.align-self-end
-                                    form(action="/delete-member", method="post")
-                                        input.btn.btn-danger(type='submit', value='Delete Member')
+                                    // Button trigger modal
+                                    button.btn.btn-danger(type='button' data-toggle='modal' data-target='#exampleModal')
+                                        | Delete Member
+                                    // Modal
+                                    #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                                        .modal-dialog(role='document')
+                                            .modal-content
+                                                .modal-header
+                                                    h5#exampleModalLabel.modal-title Deleting Member
+                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                    span(aria-hidden='true') &times;
+                                                .modal-body
+                                                    p Do you wanto to delete #{` ( ${details.firstName} ${details.lastName} )`}
+                                                .modal-footer
+                                                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                                                    form(action="/delete-member", method="post")
+                                                        input(type='hidden' value=details.clientId, name='clientId')
+                                                        input.btn.btn-danger(type='submit', value='Delete Member')
+                                                    
+                                    
                                 .col-auto.ml-auto.align-self-end
-                                    button.btn.btn-primary  Edit/ Renew
-            hr
-            .current-history
-                table.table.table-hover.table-striped.table-bordered
-                    thead.thead-dark
-                        tr
-                            th(scope='col') #
-                            th(scope='col') Start Month
-                            th(scope='col') End Month
-                            th(scope='col') Session numbers
-                    tbody
-                        each val in subscribe
-                            tr
-                                td= details.clientId
-                                td= val.startMonth
-                                td= endMonth.endMonth
-                                td= val.sessionsNumber
-                    
+                                    a(href=`/edit-member/${details.clientId}`).btn.btn-primary  Edit/ Renew
+
+            
+        .container
+            if details.statusMonthly
+                .details-training
+                    h2 Details training
+                    h4.text-center Between 2020-01-02 to 2020-01-31
+                    h5.alert-alert-warning Rest Session
+                    .row
+                        - for (var i = 0; i < details.restSession; i++)
+                            .col-auto
+                                .train-number
+                                    .alert.alert-dark(role='alert')
+                                        .custom-control.custom-checkbox
+                                            input.custom-control-input(type='checkbox', id='customCheck'+i)
+                                            label.custom-control-label(for='customCheck'+i) register
+                        
+                    if details.currentSessionArr
+                        h5.alert-alert-danger Registerd Session
+                        .row
+                            each val in details.currentSessionArr
+                                .col-auto
+                                    .train-number
+                                        .alert.alert-danger(role='alert') #{val.date.toISOString()} => #{val.trainNumber}
+                                            
+                                                
+                            
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-success(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck2.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck2')  Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck3.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck3') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck4.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck4') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck5.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck5') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck6.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck6') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck7.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck7') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck8.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck8') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck9.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck9') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck10.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck10') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck11.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck11') Date:
+                            //- .col-auto
+                            //-     .train-number
+                            //-         .alert.alert-primary(role='alert')
+                            //-             .custom-control.custom-checkbox
+                            //-                 input#customCheck12.custom-control-input(type='checkbox')
+                            //-                 label.custom-control-label(for='customCheck12') Date:
+                        
+                    hr
+                
+            .details-training
+                h5 Add new session 
+                form(action="/new-session", method="post")
+                    .form-group.row
+                        input#clientId.form-control.mr-5.col-2(type='hidden', name="clientId" , value=details.clientId)
+                        input#addNewSession.form-control.mr-5.col-2(type='number', name="addNewSession")
+                        input(type="submit", value="Add new session").btn.btn-primary.col-auto 
+
+
 
         include _scripts
