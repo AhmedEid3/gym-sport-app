@@ -5,25 +5,29 @@ html(lang='en')
     body
         include _navbar
         .container
-            h2.h2 Register new member
-            form(action='/register-member' method='post')
-                .form-group
-                    label(for='firstName') First Name
-                    input#firstName.form-control(type='text', name='firstName')
-                .form-group
-                    label(for='lastName') Last Name
-                    input#lastName.form-control(type='text', name='lastName')
-                .form-group
-                    label(for='clientId') Client ID
-                    input#clientId.form-control(type='number', name='clientId')
-                .form-group
-                    label(for='membershipStartingDate') Start Member Date
-                    input#membershipStartingDate.form-control(type='date', name='membershipStartingDate')
-                .form-group
-                    label(for='membershipExpiryDate') End Member Date
-                    input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate')
-                button.btn.btn-danger.mr-5(type='reset') Reset
-                button.btn.btn-primary(type='submit') Submit
+            .register-member
+                .row.justify-content-center
+                    .col-8
+                        h3.h3 Register new member
+                        hr
+                        form(action='/register-member' method='post')
+                            .form-group
+                                label(for='firstName') First Name
+                                input#firstName.form-control(type='text', name='firstName')
+                            .form-group
+                                label(for='lastName') Last Name
+                                input#lastName.form-control(type='text', name='lastName')
+                            .form-group
+                                label(for='clientId') Client ID
+                                input#clientId.form-control(type='number', name='clientId')
+                            .form-group
+                                label(for='membershipStartingDate') Start Member Date
+                                input#membershipStartingDate.form-control(type='date', name='membershipStartingDate')
+                            .form-group
+                                label(for='membershipExpiryDate') End Member Date
+                                input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate')
+                            button.btn.btn-danger.mr-5(type='reset') Reset
+                            button.btn.btn-primary(type='submit') Submit
 
 
         include _scripts

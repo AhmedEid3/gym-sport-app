@@ -5,29 +5,33 @@ html(lang='en')
     body
         include _navbar
         .container
-            h2.h2 Edit member
-            form(action='/edit-member' method='post')
-                .form-group
-                    label(for='firstName') First Name
-                    input#firstName.form-control(type='text', name='firstName', value=clientInfo.firstName)
-                .form-group
-                    label(for='lastName') Last Name
-                    input#lastName.form-control(type='text', name='lastName', value=clientInfo.lastName)
-                .form-group
-                    label Client ID
-                    label#clientId.form-control=clientInfo.clientId
-                .form-group
-                    input#newClientId.form-control(type='hidden', name='clientId', value=clientInfo.clientId)
-                .form-group
-                    label(for='newClientId') New Client ID
-                    input#newClientId.form-control(type='number', name='newClientId')
-                .form-group
-                    label(for='membershipStartingDate') Membership Starting Date
-                    input#membershipStartingDate.form-control(type='date', name='membershipStartingDate', value=new Date(clientInfo.membershipStartingDate).toISOString().slice(0,10))
-                .form-group
-                    label(for='membershipExpiryDate') Membership Expiry Date
-                    input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate', value=new Date(clientInfo.membershipExpiryDate).toISOString().slice(0,10))
-                button.btn.btn-danger.mr-5(type='reset') Back
-                button.btn.btn-primary(type='submit') Save
+            .register-member
+                .row.justify-content-center
+                    .col-8
+                        h3.h3 Edit member
+                        hr
+                        form(action='/edit-member' method='post')
+                            .form-group
+                                label(for='firstName') First Name
+                                input#firstName.form-control(type='text', name='firstName', value=clientInfo.firstName)
+                            .form-group
+                                label(for='lastName') Last Name
+                                input#lastName.form-control(type='text', name='lastName', value=clientInfo.lastName)
+                            .form-group
+                                label Client ID
+                                label#clientId.form-control.bg-light=clientInfo.clientId
+                            .form-group
+                                input#newClientId.form-control(type='hidden', name='clientId', value=clientInfo.clientId)
+                            .form-group
+                                label(for='newClientId') New Client ID
+                                input#newClientId.form-control(type='number', name='newClientId')
+                            .form-group
+                                label(for='membershipStartingDate') Membership Starting Date
+                                input#membershipStartingDate.form-control(type='date', name='membershipStartingDate', value=new Date(clientInfo.membershipStartingDate).toISOString().slice(0,10))
+                            .form-group
+                                label(for='membershipExpiryDate') Membership Expiry Date
+                                input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate', value=new Date(clientInfo.membershipExpiryDate).toISOString().slice(0,10))
+                            a.btn.btn-danger.back.mr-5 Back
+                            button.btn.btn-primary(type='submit') Save
 
         include _scripts

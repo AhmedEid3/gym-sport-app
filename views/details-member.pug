@@ -4,140 +4,145 @@ html(lang='en')
     body
         include _navbar
         .container
-            .card.mt-5
-                .card-header
-                    | Details member
+            .card.shadow-lg
+                .card-header.shadow-sm
+                    h4 Details member
                 .card-body
                     .row
                         .col-8
-                            .row.text-center
-                                .col-7
-                                    .row
+                            .rest-session.shadow-sm
+                                .row.text-center
+                                    .col-7
+                                        .row
+                                            .col-auto
+                                                h5.card-title Member ID
+                                            .col
+                                                .alert.alert-primary(role='alert')
+                                                    strong.clientID #{details.clientId}
+                                .details
+                                    .row.align-items-center
                                         .col-auto
-                                            h5.card-title Member ID
-                                        .col
-                                            .alert.alert-primary(role='alert')
-                                                strong.clientID #{details.clientId}
-                            .details
-                                .row.align-items-center
-                                    .col-auto
-                                        | Name:
-                                    .col= (`${details.firstName} ${details.lastName}`) 
-                                    .w-100
-                                    .col-auto
-                                        | Status Subscription:
-                                    .col-auto
-                                        if !details.statusMonthly
-                                            .alert.alert-danger(role='alert')
-                                                strong  (You have to add new session) 
+                                            | Name:
+                                        .col= (`${details.firstName} ${details.lastName}`) 
+                                        .w-100
+                                        .col-auto
+                                            | Status Subscription:
+                                        .col-auto
+                                            if !details.statusMonthly
+                                                .alert.alert-danger(role='alert')
+                                                    strong  (You have to add new session) 
+                                            else
+                                                .alert.alert-success(role='alert')
+                                                    strong Active
+
+                                        .w-100
+                                        
+                                        if details.endSubscriptionMonthly
+                                            .col-auto Start Date Monthly
+                                            .col #{details.startSubscriptionMonthly.toISOString()}
+
+                                        .w-100
+            
+                                        if details.endSubscriptionMonthly
+                                            .col-auto End Date Monthly
+                                            .col #{details.endSubscriptionMonthly.toISOString()}
+                                        .w-100
+                                        if details.endSubscriptionMonthly
+                                            .col-auto
+                                                | Total Sessions
+                                            .col-auto
+                                                .alert.alert-primary(role='alert')
+                                                    strong #{details.totalSessions} 
+                                            .col-auto
+                                                | current
+                                            .col-auto
+                                                .alert.alert-danger(role='alert')
+                                                    strong #{details.currentSession}
+                                            .col-auto
+                                                | rest
+                                            .col-auto
+                                                .alert.alert-success(role='alert')
+                                                    strong #{ details.restSession}
+                                        .w-100
+                                        .col-auto
+                                            a(href=`/history-member/${details.clientId}`).btn.btn-primary  Show History
+                            
+                        .col-4.text-center
+                            .rest-session.shadow-sm
+                                h5 State Member
+                                .row
+                                    .col-12
+                                        if !details.statusMembership
+                                            .state-member.alert-danger
+                                                | Expired 
                                         else
-                                            .alert.alert-success(role='alert')
-                                                strong Active
-
+                                            .state-member.alert-success
+                                                | Active
+                                    .col-auto Date membership
+    
+                                    .col= details.membershipStartingDate.toISOString()
                                     .w-100
-                                    
-                                    if details.endSubscriptionMonthly
-                                        .col-auto Start Date Monthly
-                                        .col #{details.startSubscriptionMonthly.toISOString()}
-
+                                    .col-auto End membership
+                                    .col= details.membershipExpiryDate.toISOString()
                                     .w-100
-        
-                                    if details.endSubscriptionMonthly
-                                        .col-auto End Date Monthly
-                                        .col #{details.endSubscriptionMonthly.toISOString()}
-                                    .w-100
-                                    if details.endSubscriptionMonthly
-                                        .col-auto
-                                            | Total Sessions
-                                        .col-auto
-                                            .alert.alert-primary(role='alert')
-                                                strong #{details.totalSessions} 
-                                        .col-auto
-                                            | current
-                                        .col-auto
-                                            .alert.alert-danger(role='alert')
-                                                strong #{details.currentSession}
-                                        .col-auto
-                                            | rest
-                                        .col-auto
-                                            .alert.alert-success(role='alert')
-                                                strong #{ details.restSession}
-                                    .w-100
-                                    .col-auto
-                                        a(href=`/history-member/${details.clientId}`).btn.btn-primary  Show History
-                        .col-4.text-center.border-left-1
-                            h5 State Member
-                            .row
-                                .col-12
-                                    if !details.statusMembership
-                                        .state-member.alert-danger
-                                            | Expired 
-                                    else
-                                        .state-member.alert-success
-                                            | Active
-                                .col-auto Date membership
-   
-                                .col= details.membershipStartingDate.toISOString()
-                                .w-100
-                                .col-auto End membership
-                                .col= details.membershipExpiryDate.toISOString()
-                                .w-100
-                                .col-auto.mr-auto.align-self-end
-                                    // Button trigger modal
-                                    button.btn.btn-danger(type='button' data-toggle='modal' data-target='#exampleModal')
-                                        | Delete Member
-                                    // Modal
-                                    #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
-                                        .modal-dialog(role='document')
-                                            .modal-content
-                                                .modal-header
-                                                    h5#exampleModalLabel.modal-title Deleting Member
-                                                    button.close(type='button' data-dismiss='modal' aria-label='Close')
-                                                    span(aria-hidden='true') &times;
-                                                .modal-body
-                                                    p Do you wanto to delete #{` ( ${details.firstName} ${details.lastName} )`}
-                                                .modal-footer
-                                                    button.btn.btn-secondary(type='button' data-dismiss='modal') Close
-                                                    form(action="/delete-member", method="post")
-                                                        input(type='hidden' value=details.clientId, name='clientId')
-                                                        input.btn.btn-danger(type='submit', value='Delete Member')
-                                                    
-                                    
-                                .col-auto.ml-auto.align-self-end
-                                    a(href=`/edit-member/${details.clientId}`).btn.btn-primary  Edit/ Renew
-
+                                    .col-auto.mr-auto.align-self-end
+                                        // Button trigger modal
+                                        button.btn.btn-danger(type='button' data-toggle='modal' data-target='#exampleModal')
+                                            | Delete Member
+                                        // Modal
+                                        #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                                            .modal-dialog(role='document')
+                                                .modal-content
+                                                    .modal-header
+                                                        h5#exampleModalLabel.modal-title Deleting Member
+                                                        button.close(type='button' data-dismiss='modal' aria-label='Close')
+                                                        span(aria-hidden='true') &times;
+                                                    .modal-body
+                                                        p Do you wanto to delete #{` ( ${details.firstName} ${details.lastName} )`}
+                                                    .modal-footer
+                                                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                                                        form(action="/delete-member", method="post")
+                                                            input(type='hidden' value=details.clientId, name='clientId')
+                                                            input.btn.btn-danger(type='submit', value='Delete Member')
+                                                        
+                                        
+                                    .col-auto.ml-auto.align-self-end
+                                        a(href=`/edit-member/${details.clientId}`).btn.btn-primary  Edit/ Renew
+                        .col
+                            .rest-session.shadow-sm
+                                h5 Add new session 
+                                form(action="/new-session", method="post")
+                                    .form-group.row.ml-1
+                                        input#clientId.form-control.mr-5.col-auto(type='hidden', name="clientId" , value=details.clientId)
+                                        input#addNewSession.form-control.mr-5.col-3(type='number', name="addNewSession",  min="1" max="30")
+                                        input(type="submit", value="Add new session").btn.btn-primary.col-auto 
             
         .container
+
+
             if details.statusMonthly
                 .details-training
-                    h2 Details training
-                    h4.text-center Between 2020-01-02 to 2020-01-31
-                    h5.alert-alert-warning Rest Session
-                    .row
-                        - for (var i = 0; i < details.restSession; i++)
-                            .col-auto
-                                .train-number
-                                    .alert.alert-dark(role='alert')
-                                        .custom-control.custom-checkbox
-                                            input.custom-control-input(type='checkbox', id='customCheck'+i)
-                                            label.custom-control-label(for='customCheck'+i) register
-                        
-                    if details.currentSessionArr
-                        h5.alert-alert-danger Registerd Session
+                    h4 Details training
+                    h5.text-center Between 2020-01-02 to 2020-01-31
+                    hr
+                    .rest-session.shadow
+                        h5.alert-alert-warning Rest Session
                         .row
-                            each val in details.currentSessionArr
+                            - for (var i = 0; i < details.restSession; i++)
                                 .col-auto
                                     .train-number
-                                        .alert.alert-danger(role='alert') #{val.date.toISOString()}
-
-                    hr
-                
-            .details-training
-                h5 Add new session 
-                form(action="/new-session", method="post")
-                    .form-group.row
-                        input#clientId.form-control.mr-5.col-2(type='hidden', name="clientId" , value=details.clientId)
-                        input#addNewSession.form-control.mr-5.col-2(type='number', name="addNewSession",  min="1" max="30")
-                        input(type="submit", value="Add new session").btn.btn-primary.col-auto 
+                                        .alert.alert-dark(role='alert')
+                                            .custom-control.custom-checkbox
+                                                input.custom-control-input(type='checkbox', id='customCheck'+i)
+                                                label.custom-control-label(for='customCheck'+i) register
+                            
+                    if details.currentSessionArr
+                        .rest-session.shadow
+                            h5 Registerd Session
+                            .row
+                                each val in details.currentSessionArr
+                                    .col-auto
+                                        .train-number
+                                            .alert.alert-success(role='alert') #{val.date.toISOString()}
 
         include _scripts

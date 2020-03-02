@@ -5,18 +5,21 @@ html(lang='en')
     body
         include _navbar
         .container
-            h2.h2 Edit Admin
-            form(action='/admin', method='post')
-                .form-group
-                    label(for='userName') User Name
-                    input#userName.form-control(type='text', name='userName')
-                .form-group
-                    label(for='oldPassword') Old Password
-                    input#oldPassword.form-control(type='password', name='oldPassword')
-                .form-group
-                    label(for='password') Password
-                    input#password.form-control(type='password', name='password')
-                a.back.btn.btn-danger.mr-5 Back
-                button.btn.btn-primary(type='submit') Save
+            .home
+                .row.justify-content-center
+                    .col-8
+                        h2.h2 Edit Admin
+                        form(action='/admin', method='post')
+                            .form-group
+                                label(for='userName') User Name
+                                input#userName.form-control(type='text', name='userName')
+                            .form-group
+                                label(for='oldPassword') Old Password
+                                input#oldPassword.form-control(type='password', name='oldPassword')
+                            .form-group
+                                label(for='password') Password
+                                input#password.form-control(type='password', name='password')
+                            a.back.btn.btn-danger.mr-5 Back
+                            button.btn.btn-primary(type='submit') Save
 
         include _scripts
