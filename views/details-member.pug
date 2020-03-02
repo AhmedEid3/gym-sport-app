@@ -1,9 +1,6 @@
-
-    
 doctype html
 html(lang='en')
     include _header
-
     body
         include _navbar
         .container
@@ -39,28 +36,17 @@ html(lang='en')
 
                                     .w-100
                                     
-                                    if !details.endSubscriptionMonthly
-                                        //- .col Expired
-                                    else
+                                    if details.endSubscriptionMonthly
                                         .col-auto Start Date Monthly
                                         .col #{details.startSubscriptionMonthly.toISOString()}
 
                                     .w-100
-                                    
         
-                                    if !details.endSubscriptionMonthly
-                                        //- .col Expired
-                                    else
+                                    if details.endSubscriptionMonthly
                                         .col-auto End Date Monthly
                                         .col #{details.endSubscriptionMonthly.toISOString()}
                                     .w-100
-                                    if !details.endSubscriptionMonthly
-                                        //- .col-auto
-                                        //-     | session number
-                                        //- .col-auto
-                                        //-     .alert.alert-danger(role='alert')
-                                        //-         strong Expired Monthly
-                                    else
+                                    if details.endSubscriptionMonthly
                                         .col-auto
                                             | Total Sessions
                                         .col-auto
@@ -142,77 +128,8 @@ html(lang='en')
                             each val in details.currentSessionArr
                                 .col-auto
                                     .train-number
-                                        .alert.alert-danger(role='alert') #{val.date.toISOString()} => #{val.trainNumber}
-                                            
-                                                
-                            
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-success(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck2.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck2')  Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck3.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck3') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck4.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck4') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck5.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck5') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck6.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck6') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck7.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck7') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck8.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck8') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck9.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck9') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck10.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck10') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck11.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck11') Date:
-                            //- .col-auto
-                            //-     .train-number
-                            //-         .alert.alert-primary(role='alert')
-                            //-             .custom-control.custom-checkbox
-                            //-                 input#customCheck12.custom-control-input(type='checkbox')
-                            //-                 label.custom-control-label(for='customCheck12') Date:
-                        
+                                        .alert.alert-danger(role='alert') #{val.date.toISOString()}
+
                     hr
                 
             .details-training
@@ -222,7 +139,5 @@ html(lang='en')
                         input#clientId.form-control.mr-5.col-2(type='hidden', name="clientId" , value=details.clientId)
                         input#addNewSession.form-control.mr-5.col-2(type='number', name="addNewSession")
                         input(type="submit", value="Add new session").btn.btn-primary.col-auto 
-
-
 
         include _scripts

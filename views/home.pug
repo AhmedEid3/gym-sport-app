@@ -9,7 +9,7 @@ html(lang='en')
                     .card.text-white.text-center.bg-primary.mb-3
                         .card-header Total Members
                         .card-body
-                            h5.card-title #{membersActive.length + membersExpired.length}
+                            h5.card-title #{15}
 
                 .col-md-5.col-lg-auto
                     .card.text-white.bg-success.mb-3
@@ -25,12 +25,12 @@ html(lang='en')
                     .card.text-white.bg-success.mb-3
                         .card-header Active Monthly
                         .card-body
-                            h5.card-title #{membersActive.length}
+                            h5.card-title #{19}
                 .col-md-5.col-lg-auto
                     .card.text-white.bg-danger.mb-3
                         .card-header Not-Active Monthly
                         .card-body
-                            h5.card-title #{membersExpired.length}
+                            h5.card-title #{21}
 
         .container-fluid
             .table-responsive
@@ -44,11 +44,9 @@ html(lang='en')
                             th(scope='col') Session numbers
                             th(scope='col') Session current
                             th(scope='col') Session rest
-                            th(scope='col') Start Month
-                            th(scope='col') Current Date
                             th(scope='col') Show member
                     tbody
-                        each value, index in membersActive
+                        each value, index in [1,2,3,4,5,6,7]
                             tr
                                 th(scope='row') #{index + 1}
                                 td= value.clientId
@@ -58,39 +56,8 @@ html(lang='en')
                                 td= value.sessionsNumber
                                 td= value.trainNumbers
                                 td #{(value.sessionsNumber - value.trainNumbers)}
-                                td= value.startMonth
-                                td= value.currentDate
                                 td
-                                    a(href='/details-member/'+value.clientId).btn.btn-primary Show member
+                                    a(href='/details-member/'+(index+1)).btn.btn-primary Show member
         hr                
-        .container-fluid
-            .table-responsive
-                table.example.table.table-hover.table-striped.table-bordered
-                    thead.thead-dark
-                        tr
-                            th(scope='col') #
-                            th(scope='col') Id Member
-                            th(scope='col') Name
-                            th(scope='col') State subscription
-                            th(scope='col') Session numbers
-                            th(scope='col') Session current
-                            th(scope='col') Session rest
-                            th(scope='col') End subscription
-                            th(scope='col') Show member
-                    tbody
-                        each value, index in membersExpired
-                            tr
-                                th(scope='row') #{index + 1}
-                                td= value.clientId
-                                td= value.firstName + ' ' + value.lastName
-                                td
-                                    .alert.alert-danger.text-center Expired
-                                td 77
-                                td 55
-                                td 55
-                                td= value.endMonth
-                                td
-                                    a(href='/details-member/'+value.clientId).btn.btn-primary Show member
-                        
 
         include _scripts

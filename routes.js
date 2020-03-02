@@ -9,9 +9,7 @@ const {
   sumOfObj,
   sheckStatus
 } = require("./helpers/generic");
-const knex = require("./db/connection");
-const sqlite3 = require("sqlite3").verbose();
-const databasePath = "./db/gym.sqlite";
+
 const titleBase = " | GYM App";
 
 // Change password admin
@@ -247,7 +245,7 @@ async function detailsMember(req, res) {
 
     // current Session Array
 
-    console.log(details);
+    // console.log(details);
 
     res.render("details-member", {
       title: `details-member ${titleBase}`,
@@ -255,6 +253,67 @@ async function detailsMember(req, res) {
     });
   } catch (error) {
     return res.send("Faild Get details Number!!" + error.message);
+  }
+}
+
+// History member
+async function historyMember(req, res) {
+  try {
+    const id = +req.params.clientId;
+    const client = await Client.findOne({
+      clientId: id
+    }).select({
+      clientId: 1,
+      firstName: 1,
+      lastName: 1,
+      membershipExpiryDate: 1,
+      startSubscription: 1,
+      endSubscription: 1,
+      currentSession: 1
+    });
+
+    let details = {
+      clientId: client.clientId,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      startSubscription: client.startSubscription,
+      currentSession: client.currentSession,
+      statusMonthly: null,
+      statusMembership: null
+    };
+
+    // get End Month
+    const currentDate = new Date();
+    if (client.endSubscription.length) {
+      let valuesEndMonth = valuesOfSpecificMonth(
+        client.endSubscription,
+        currentDate
+      );
+      let sortedEndMonths = sortByDay(valuesEndMonth);
+      let lastDayMonth = findLastDayOfMonth(sortedEndMonths, currentDate);
+      if (lastDayMonth) {
+        // check Status Monthly
+        details.statusMonthly = sheckStatus(lastDayMonth.date, currentDate);
+      }
+    }
+
+    // check Status Membership
+    details.statusMembership = sheckStatus(
+      client.membershipExpiryDate,
+      currentDate
+    );
+
+    console.log(details);
+
+    if (!client)
+      return res.send("Faild Get details Number!! cant fined client");
+
+    return res.render("history-member", {
+      title: `history-member ${titleBase}`,
+      details: details
+    });
+  } catch (error) {
+    res.send(error.message);
   }
 }
 
@@ -347,226 +406,28 @@ async function deleteMember(req, res) {
   }
 }
 
-// History member
-function historyMember(req, res) {
-  //open the database
-  let db = openDatabase();
-  // let id = +req.body.clientId;
-  let clientInfo;
-  let endMonth;
-  // update database
-  let getClient = `SELECT 
-                clientId,
-                firstName,
-                lastName,
-                startMemberDate,
-                endMemberDate
-            FROM
-                client
-            WHERE
-                clientId = 1`;
-
-  let getStartMonth = `SELECT 
-                          startMonth,
-                          sessionsNumber
-                      FROM
-                          startSubscription`;
-  let getEndMonth = `SELECT 
-                          endMonth
-                      FROM
-                          endSubscription`;
-
-  db.serialize(() => {
-    db.get(getClient, [], (err, rows) => {
-      if (err) {
-        return res.send("Error details01");
-      }
-      console.log(rows);
-      clientInfo = rows;
-    })
-      .get(getEndMonth, [], (err, rows) => {
-        if (err) {
-          return res.send("Error details02");
-        }
-        console.log(rows);
-        endMonth = rows;
-      })
-      .all(getStartMonth, [], (err, rows) => {
-        if (err) {
-          return res.send("Error details03");
-        }
-        console.log(rows);
-        return res.render("history-member", {
-          title: `history-member ${titleBase}`,
-          details: clientInfo,
-          subscribe: rows,
-          endMonth: endMonth
-        });
-      });
-  });
-
-  //close database
-  closeDatabase(db);
-}
-
 // Home Page
-function homePage(req, res) {
-  knex
-    .select(
-      "client.clientId",
-      "firstName",
-      "lastName",
-      // knex.raw("SUM(sessionsNumber) as sessionsNumber"),
-      "startMonth",
-      knex.raw("SUM(sessionsNumber) as sessionsNumber"),
-      "trainNumber as trainNumbers",
-      "currentDate"
-    )
-    .from("client")
-    .innerJoin(
-      "startSubscription",
-      "client.clientId",
-      "startSubscription.clientId"
-    )
-    .innerJoin("currentSession", "client.clientId", "currentSession.clientId")
-    .groupBy("startSubscription.clientId")
-    .having(
-      knex.raw("strftime('%Y-%m',startSubscription.startMonth)"),
-      "=",
-      knex.raw("strftime('%Y-%m',currentSession.currentDate)")
-    )
-    .then(membersActive => {
-      console.log(membersActive);
-      // console.log(membersExpired);
-      return res.render("home", {
-        title: `Home ${titleBase}`,
-        membersActive: membersActive,
-        membersExpired: membersActive
-      });
-    })
-    .catch(err => {
-      res.send(err.message);
-      console.log("active", err.message);
+async function homePage(req, res) {
+  try {
+    const clients = await Client.find().select({
+      clientId: 1,
+      firstName: 1,
+      lastName: 1,
+      membershipStartingDate: 1,
+      membershipExpiryDate: 1,
+      startSubscription: 1,
+      endSubscription: 1,
+      currentSession: 1
     });
-}
 
-// function homePage(req, res) {
-//   knex
-//     .select(
-//       "client.clientId",
-//       "firstName",
-//       "lastName",
-//       knex.raw("SUM(sessionsNumber) as sessionsNumber")
-//     )
-//     .from("client")
-//     .innerJoin(
-//       "startSubscription",
-//       "client.clientId",
-//       "startSubscription.clientId"
-//     )
-//     .groupBy(
-//       "startSubscription.clientId",
-//       knex.raw("strftime('%Y-%m',startMonth)")
-//     )
-//     .having(
-//       knex.raw("strftime('%Y-%m',startMonth)"),
-//       "=",
-//       knex.raw("strftime('%Y-%m','now')")
-//     )
-//     .then(membersActive => {
-//       knex
-//         .select("client.clientId", "firstName", "lastName", "endMonth")
-//         .from("client")
-//         .innerJoin(
-//           "endSubscription",
-//           "client.clientId",
-//           "endSubscription.clientId"
-//         )
-//         .groupBy("endSubscription.clientId")
-//         .having(
-//           knex.raw("strftime('%Y-%m',endMonth)"),
-//           "<",
-//           knex.raw("strftime('%Y-%m','now')")
-//         )
-//         .then(membersExpired => {
-//           console.log(membersActive);
-//           console.log(membersExpired);
-//           return res.render("home", {
-//             title: `Home ${titleBase}`,
-//             membersActive,
-//             membersExpired
-//           });
-//         })
-//         .catch(err => {
-//           res.send(err.message);
-//           console.log("expired", err.message);
-//         });
-//     })
-//     .catch(err => {
-//       res.send(err.message);
-//       console.log("active", err.message);
-//     });
-// }
+    if (!clients)
+      return res.send("Faild Get details Number!! cant fined client");
 
-// function homePage(req, res) {
-//   knex
-//     .select(
-//       "client.clientId",
-//       "firstName",
-//       "lastName",
-//       knex.raw("SUM(sessionsNumber) as sessionsNumber")
-//     )
-//     .from("client")
-//     .innerJoin(
-//       "startSubscription",
-//       "client.clientId",
-//       "startSubscription.clientId"
-//     )
-//     .groupBy(
-//       "startSubscription.clientId",
-//       knex.raw("strftime('%Y-%m',startMonth)")
-//     )
-//     .having(
-//       knex.raw("strftime('%Y-%m',startMonth)"),
-//       "=",
-//       knex.raw("strftime('%Y-%m','now')")
-//     )
-//     .then(data => {
-//       console.log(data);
-//       return res.render("home", {
-//         title: `Home ${titleBase}`,
-//         details: data
-//       });
-//     })
-//     .catch(err => {
-//       res.send(err.message);
-//       console.log(err.message);
-//     });
-// }
-
-// open database
-
-function openDatabase() {
-  return new sqlite3.Database(databasePath, sqlite3.OPEN_READWRITE, err => {
-    if (err) {
-      return console.error(err.message);
-    }
-    console.log("Database connected.");
-  }).run("PRAGMA foreign_keys = ON", err => {
-    if (err) {
-      console.error(err.message);
-    }
-  });
-}
-
-// close database
-function closeDatabase(db) {
-  db.close(err => {
-    if (err) {
-      console.error(err.message);
-    }
-    console.log("Closed database connection.");
-  });
+    return res.render("home", {
+      title: `Home ${titleBase}`,
+      clientsInfo: clients
+    });
+  } catch (error) {}
 }
 
 module.exports = {

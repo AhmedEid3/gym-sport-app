@@ -11,9 +11,10 @@ html(lang='en')
                 .card-body
                     .row
                         .col-8
-                            .row.text-center.justify-content-center
-                                .col-7
+                            .row.text-center
+                                .col-auto
                                     h5.card-title Number Membership
+                                .col-7
                                     .alert.alert-primary(role='alert')
                                         strong= details.clientId
                             .details
@@ -24,30 +25,38 @@ html(lang='en')
                                     .w-100
                                     .col-auto
                                         | Status Subscription:
-                                    .col-2
-                                        .alert.alert-success(role='alert')
-                                            strong Active
+                                    .col-auto
+                                        if !details.statusMonthly
+                                            .alert.alert-danger(role='alert')
+                                                strong  (You have to add new session) 
+                                        else
+                                            .alert.alert-success(role='alert')
+                                                strong Active
                         .col-4.text-center
                             .row.h-100
                                 .col-12
                                     h5 State Member
-                                    .state-member.alert-success
-                                        | Active
+                                    if !details.statusMembership
+                                        .state-member.alert-danger
+                                            | Expired 
+                                    else
+                                        .state-member.alert-success
+                                            | Active
+
             hr
             .current-history
-                table.table.table-hover.table-striped.table-bordered
-                    thead.thead-dark
-                        tr
-                            th(scope='col') #
-                            th(scope='col') Start Month
-                            th(scope='col') End Month
-                            th(scope='col') Session numbers
-                    tbody
-                        each val in subscribe
+                .table-responsive
+                    table.example.table.table-hover.table-striped.table-bordered
+                        thead.thead-dark
                             tr
-                                td= details.clientId
-                                td= val.startMonth
-                                td= endMonth.endMonth
-                                td= val.sessionsNumber
+                                th(scope='col') #
+                                th(scope='col') Day
+                                th(scope='col') Session numbers
+                        tbody
+                            each val, index in details.startSubscription
+                                tr
+                                    td= index + 1
+                                    td= val.date.toISOString()
+                                    td= val.sessionNumber
 
         include _scripts
