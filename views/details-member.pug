@@ -137,7 +137,7 @@ html(lang='en')
                 form(action="/new-session", method="post")
                     .form-group.row
                         input#clientId.form-control.mr-5.col-2(type='hidden', name="clientId" , value=details.clientId)
-                        input#addNewSession.form-control.mr-5.col-2(type='number', name="addNewSession")
+                        input#addNewSession.form-control.mr-5.col-2(type='number', name="addNewSession",  min="1" max="30")
                         input(type="submit", value="Add new session").btn.btn-primary.col-auto 
 
         include _scripts

@@ -62,6 +62,27 @@ function changePasswordAdmin(req, res) {
   closeDatabase(db);
 }
 
+// Home Page
+async function homePage(req, res) {
+  try {
+    const clients = await Client.find().select({
+      clientId: 1,
+      firstName: 1,
+      lastName: 1
+    });
+
+    if (!clients) return res.send("Faild Get Home page!! cant fined client");
+    console.log(clients);
+
+    return res.render("home", {
+      title: `Home ${titleBase}`,
+      clientsInfo: clients
+    });
+  } catch (error) {
+    res.send(error.message);
+  }
+}
+
 // Register new member
 async function registerNewMember(req, res) {
   try {
@@ -404,30 +425,6 @@ async function deleteMember(req, res) {
   } catch (error) {
     return res.send("Faild Delete Exist Member!! +++++" + error.message);
   }
-}
-
-// Home Page
-async function homePage(req, res) {
-  try {
-    const clients = await Client.find().select({
-      clientId: 1,
-      firstName: 1,
-      lastName: 1,
-      membershipStartingDate: 1,
-      membershipExpiryDate: 1,
-      startSubscription: 1,
-      endSubscription: 1,
-      currentSession: 1
-    });
-
-    if (!clients)
-      return res.send("Faild Get details Number!! cant fined client");
-
-    return res.render("home", {
-      title: `Home ${titleBase}`,
-      clientsInfo: clients
-    });
-  } catch (error) {}
 }
 
 module.exports = {
