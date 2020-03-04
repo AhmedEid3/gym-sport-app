@@ -1,7 +1,7 @@
 doctype html
 html(lang='en')
     include _header
-    body
+    body.details-member
         include _navbar
         .container
             .card.shadow-lg
@@ -9,85 +9,89 @@ html(lang='en')
                     h4 Details member
                 .card-body
                     .row
-                        .col-8
-                            .rest-session.shadow-sm
-                                .row.text-center
-                                    .col-7
-                                        .row
-                                            .col-auto
-                                                h5.card-title Member ID
-                                            .col
-                                                .alert.alert-primary(role='alert')
-                                                    strong.clientID #{details.clientId}
-                                .details
-                                    .row.align-items-center
-                                        .col-auto
-                                            | Name:
-                                        .col= (`${details.firstName} ${details.lastName}`) 
-                                        .w-100
-                                        .col-auto
-                                            | Status Subscription:
-                                        .col-auto
-                                            if !details.statusMonthly
-                                                .alert.alert-danger(role='alert')
-                                                    strong  (You have to add new session) 
-                                            else
-                                                .alert.alert-success(role='alert')
-                                                    strong Active
+                        .col-12.col-lg-6.col-xl-7.mb-2.mb-lg-0
+                            .state-membership.shadow-sm
+                                .row.align-items-baseline
+                                    .col-4.col-lg-5.col-xl-4
+                                        h6.card-title.text-right Member ID
+                                    .col-8.col-lg-7.col-xl-8
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong.clientID #{details.clientId}
 
-                                        .w-100
+                                    .col-4.col-lg-5.col-xl-4
+                                        h6.card-title Name
+                                    .col-8.col-lg-7.col-xl-8
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong #{`${details.firstName} ${details.lastName}`}
+
+                                    .col-4.col-lg-5.col-xl-4
+                                        h6.card-title Status Subscription
+                                    .col-8.col-lg-7.col-xl-8
+                                        if !details.statusMonthly
+                                            .alert.alert-danger.shadow(role='alert')
+                                                strong  (You have to add new session) 
+                                        else
+                                            .alert.alert-success.shadow(role='alert')
+                                                strong Active
+
+                                    if details.endSubscriptionMonthly
+                                        .col-4.col-lg-5.col-xl-4
+                                            h6.card-title Start Date Monthly
+                                        .col-8.col-lg-7.col-xl-8
+                                            .alert.alert-primary.shadow-sm(role='alert')
+                                                strong #{details.startSubscriptionMonthly.toISOString().substring(0,10)}
+                                            
+                                    if details.endSubscriptionMonthly
+                                            .col-4.col-lg-5.col-xl-4
+                                                h6.card-title End Date Monthly
+                                            .col-8.col-lg-7.col-xl-8
+                                                .alert.alert-primary.shadow-sm(role='alert')
+                                                    strong #{details.endSubscriptionMonthly.toISOString().substring(0,10)}
+                                
+                                    if details.endSubscriptionMonthly
+                                        .col-auto.col-lg-5.col-xl-auto
+                                            h6.card-title Total Sessions
+                                        .col-2.col-lg-7.col-xl-auto
+                                            .alert.alert-primary.shadow-sm(role='alert')
+                                                strong #{details.totalSessions} 
+                                        .col-auto.col-lg-3.col-xl-auto
+                                            h6.card-title current
+                                        .col-2.col-lg-3.col-2
+                                            .alert.alert-danger.shadow-sm(role='alert')
+                                                strong #{details.currentSession}
+                                        .col-auto.col-lg-3.col-xl-auto
+                                            h6.card-title rest
+                                        .col-2.col-lg-3.col-2
+                                            .alert.alert-success.shadow-sm(role='alert')
+                                                strong #{ details.restSession}
                                         
-                                        if details.endSubscriptionMonthly
-                                            .col-auto Start Date Monthly
-                                            .col #{details.startSubscriptionMonthly.toISOString()}
-
-                                        .w-100
-            
-                                        if details.endSubscriptionMonthly
-                                            .col-auto End Date Monthly
-                                            .col #{details.endSubscriptionMonthly.toISOString()}
-                                        .w-100
-                                        if details.endSubscriptionMonthly
-                                            .col-auto
-                                                | Total Sessions
-                                            .col-auto
-                                                .alert.alert-primary(role='alert')
-                                                    strong #{details.totalSessions} 
-                                            .col-auto
-                                                | current
-                                            .col-auto
-                                                .alert.alert-danger(role='alert')
-                                                    strong #{details.currentSession}
-                                            .col-auto
-                                                | rest
-                                            .col-auto
-                                                .alert.alert-success(role='alert')
-                                                    strong #{ details.restSession}
-                                        .w-100
-                                        .col-auto
-                                            a(href=`/history-member/${details.clientId}`).btn.btn-primary  Show History
-                            
-                        .col-4.text-center
-                            .rest-session.shadow-sm
-                                h5 State Member
-                                .row
-                                    .col-12
+                        .col-12.col-lg-6.col-xl-5.text-center
+                            .state-membership.shadow-sm
+                                .row.align-items-baseline.h-100
+                                    .col-5
+                                        h6.card-title State Membership
+                                    .col-7
                                         if !details.statusMembership
-                                            .state-member.alert-danger
+                                            .state-member.alert-danger.shadow
                                                 | Expired 
                                         else
-                                            .state-member.alert-success
+                                            .state-member.alert-success.shadow
                                                 | Active
-                                    .col-auto Date membership
-    
-                                    .col= details.membershipStartingDate.toISOString()
-                                    .w-100
-                                    .col-auto End membership
-                                    .col= details.membershipExpiryDate.toISOString()
-                                    .w-100
+                                    .col-5 
+                                        h6.card-title Membership Date
+                                    .col-7
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong #{details.membershipStartingDate.toISOString().substring(0,10)}
+                                    
+                                    .col-5 
+                                        h6.card-title Expiry Date
+                                    .col-7
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong #{details.membershipExpiryDate.toISOString().substring(0,10)}
+            
                                     .col-auto.mr-auto.align-self-end
                                         // Button trigger modal
-                                        button.btn.btn-danger(type='button' data-toggle='modal' data-target='#exampleModal')
+                                        button.btn.btn-danger.shadow(type='button' data-toggle='modal' data-target='#exampleModal')
                                             | Delete Member
                                         // Modal
                                         #exampleModal.modal.fade(tabindex='-1' role='dialog' aria-labelledby='exampleModalLabel' aria-hidden='true')
@@ -107,19 +111,22 @@ html(lang='en')
                                                         
                                         
                                     .col-auto.ml-auto.align-self-end
-                                        a(href=`/edit-member/${details.clientId}`).btn.btn-primary  Edit/ Renew
-                        .col
+                                        a(href=`/edit-member/${details.clientId}`).btn.btn-primary.shadow  Edit/ Renew
+                        .col-12
                             .rest-session.shadow-sm
                                 h5 Add new session 
-                                form(action="/new-session", method="post")
-                                    .form-group.row.ml-1
-                                        input#clientId.form-control.mr-5.col-auto(type='hidden', name="clientId" , value=details.clientId)
-                                        input#addNewSession.form-control.mr-5.col-3(type='number', name="addNewSession",  min="1" max="30")
-                                        input(type="submit", value="Add new session").btn.btn-primary.col-auto 
-            
+                                .row
+                                    .col-8.col-lg-7
+                                        form(action="/new-session", method="post")
+                                            .form-group.row.ml-1
+                                                input#clientId.form-control.mr-5.col-auto(type='hidden', name="clientId" , value=details.clientId)
+                                                input#addNewSession.form-control.mr-5.col-5.col-lg-3(type='number', name="addNewSession",  min="1" max="30")
+                                                input(type="submit", value="Add new session").btn.btn-primary.col-auto.shadow 
+                    
+                                    .col-4.col-lg-5
+                                        a(href=`/history-member/${details.clientId}`).ml-4.btn.btn-info.shadow  Show History
+
         .container
-
-
             if details.statusMonthly
                 .details-training
                     h4 Details training
@@ -143,6 +150,6 @@ html(lang='en')
                                 each val in details.currentSessionArr
                                     .col-auto
                                         .train-number
-                                            .alert.alert-success(role='alert') #{val.date.toISOString()}
+                                            .alert.alert-success(role='alert') #{val.date.toISOString().substring(0,10)}
 
         include _scripts

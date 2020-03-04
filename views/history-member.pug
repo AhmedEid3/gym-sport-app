@@ -5,43 +5,86 @@ html(lang='en')
     body
         include _navbar
         .container
-            .card.mt-5
-                .card-header
-                    | History member
+            .card.shadow-lg
+                .card-header.shadow-sm
+                    h4 History member
                 .card-body
                     .row
-                        .col-8
-                            .row.text-center
-                                .col-auto
-                                    h5.card-title Number Membership
-                                .col-7
-                                    .alert.alert-primary(role='alert')
-                                        strong= details.clientId
-                            .details
-                                .row.align-items-center
-                                    .col-auto
-                                        | Name:
-                                    .col= (details.firstName + ' ' + details.lastName)
-                                    .w-100
-                                    .col-auto
-                                        | Status Subscription:
-                                    .col-auto
+                        .col-12.col-lg-7.mb-2.mb-lg-0
+                            .state-membership.shadow-sm
+                                .row.align-items-baseline
+                                    .col-4
+                                        h6.card-title.text-right Member ID
+                                    .col-8
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong.clientID #{details.clientId}
+
+                                    .col-4
+                                        h6.card-title.text-right Name
+                                    .col-8
+                                        .alert.alert-primary.shadow-sm(role='alert')
+                                            strong #{`${details.firstName} ${details.lastName}`}
+
+
+                        .col-12.col-lg-5.text-center
+                            .state-membership.shadow-sm
+                                .row.align-items-baseline.h-100
+                                    .col-5
+                                        h6.card-title Status Subscription
+                                    .col-7
                                         if !details.statusMonthly
-                                            .alert.alert-danger(role='alert')
+                                            .alert.alert-danger.shadow(role='alert')
                                                 strong  (You have to add new session) 
                                         else
-                                            .alert.alert-success(role='alert')
+                                            .alert.alert-success.shadow(role='alert')
                                                 strong Active
-                        .col-4.text-center
-                            .row.h-100
-                                .col-12
-                                    h5 State Member
-                                    if !details.statusMembership
-                                        .state-member.alert-danger
-                                            | Expired 
-                                    else
-                                        .state-member.alert-success
-                                            | Active
+                                    .col-5
+                                        h6.card-title State Membership
+                                    .col-7
+                                        if !details.statusMembership
+                                            .state-member.alert-danger.shadow
+                                                | Expired 
+                                        else
+                                            .state-member.alert-success.shadow
+                                                | Active
+
+            //- .card.mt-5
+            //-     .card-header
+            //-         | History member
+            //-     .card-body
+            //-         .row
+            //-             .col-8
+            //-                 .row.text-center
+            //-                     .col-auto
+            //-                         h5.card-title Number Membership
+            //-                     .col-7
+            //-                         .alert.alert-primary(role='alert')
+            //-                             strong= details.clientId
+            //-                 .details
+            //-                     .row.align-items-center
+            //-                         .col-auto
+            //-                             | Name:
+            //-                         .col= (details.firstName + ' ' + details.lastName)
+            //-                         .w-100
+            //-                         .col-auto
+            //-                             | Status Subscription:
+            //-                         .col-auto
+            //-                             if !details.statusMonthly
+            //-                                 .alert.alert-danger(role='alert')
+            //-                                     strong  (You have to add new session) 
+            //-                             else
+            //-                                 .alert.alert-success(role='alert')
+            //-                                     strong Active
+            //-             .col-4.text-center
+            //-                 .row.h-100
+            //-                     .col-12
+            //-                         h5 State Member
+            //-                         if !details.statusMembership
+            //-                             .state-member.alert-danger
+            //-                                 | Expired 
+            //-                         else
+            //-                             .state-member.alert-success
+            //-                                 | Active
 
             hr
             .current-history

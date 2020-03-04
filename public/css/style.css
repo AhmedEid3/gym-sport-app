@@ -11,7 +11,8 @@ body {
 .home,
 .register-member,
 .details-training,
-.rest-session {
+.rest-session,
+.state-membership {
   border-radius: 5px;
   padding: 15px;
   border: 1px solid #c5c5c5c5;
@@ -39,23 +40,28 @@ body {
   margin-top: 10px;
 }
 .state-member {
-  width: 100px;
+  width: 100%;
   height: 100px;
 
   border-radius: 5px;
 
   font-size: 25px;
   line-height: 100px;
-  margin: auto;
+  margin: 0 auto 15px;
   text-align: center;
 }
-
-.alert {
+.state-membership {
+  height: 100%;
+}
+/* .alert {
   margin-bottom: 0;
+} */
+.details-member .card-title {
+  text-align: right;
 }
 
 /*admin*/
-.circle {
+/* .circle {
   width: 100px;
   height: 100px;
   line-height: 100px;
@@ -65,7 +71,7 @@ body {
   text-align: center;
   font-size: 25px;
   margin: 10px auto;
-}
+} */
 
 .back {
   color: #ffffff !important;
