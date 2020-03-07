@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+    include _header
+    body.error
+        include _navbar
+        #notfound
+            .notfound
+                div
+                    .notfound-404
+                        h1 !
+                    h2
+                        | Error
+                        br
+                        //- | #{statusCode}
+                p #{errorMSG}
+                //- p #{errorMSG} 
+                .row
+                    .col-auto
+                        a(href='#').back.btn.btn-info.shadow-lg Back
+                    .col-auto
+                        a(href='/').btn.btn-primary.text-white.shadow-lg Go to homepage
+
+        include _scripts

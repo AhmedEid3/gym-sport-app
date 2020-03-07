@@ -6,9 +6,16 @@ html(lang='en')
         .container
             .card.shadow-lg
                 .card-header.shadow-sm
-                    h4 Details member
+                    h4 Details member 
                 .card-body
-                    .row
+                    .row.justify-content-center
+                        if message
+                            .col-7
+                                .alert.alert-success.alert-dismissible.fade.show.shadow-lg(role='alert')
+                                    strong #{message} 
+                                    button.close(type='button' data-dismiss='alert' aria-label='Close')
+                                        span(aria-hidden='true') &times;
+
                         .col-12.col-lg-6.col-xl-7.mb-2.mb-lg-0
                             .state-membership.shadow-sm
                                 .row.align-items-baseline
@@ -56,12 +63,12 @@ html(lang='en')
                                                 strong #{details.totalSessions} 
                                         .col-auto.col-lg-3.col-xl-auto
                                             h6.card-title current
-                                        .col-2.col-lg-3.col-2
+                                        .col-2.col-lg-3.col-xl-2
                                             .alert.alert-danger.shadow-sm(role='alert')
                                                 strong #{details.currentSession}
                                         .col-auto.col-lg-3.col-xl-auto
                                             h6.card-title rest
-                                        .col-2.col-lg-3.col-2
+                                        .col-2.col-lg-3.col-xl-2
                                             .alert.alert-success.shadow-sm(role='alert')
                                                 strong #{ details.restSession}
                                         
@@ -118,9 +125,17 @@ html(lang='en')
                                 .row
                                     .col-8.col-lg-7
                                         form(action="/new-session", method="post")
+                                            - var cDate = new Date();
+                                            - var today = new Date().toISOString().slice(0, 10).slice(8, 10);
+                                            - var validate = new Date(cDate.getFullYear(), cDate.getMonth() + 1).toISOString().slice(0, 10).slice(8, 10);
+                                                if details.totalSessions 
+                                                    - var validateInput = parseInt(validate) - details.totalSessions;
+                                                else 
+                                                    - validateInput = parseInt(validate) - parseInt(today);
+
                                             .form-group.row.ml-1
                                                 input#clientId.form-control.mr-5.col-auto(type='hidden', name="clientId" , value=details.clientId)
-                                                input#addNewSession.form-control.mr-5.col-5.col-lg-3(type='number', name="addNewSession",  min="1" max="30")
+                                                input#addNewSession.form-control.mr-5.col-5.col-lg-3(type='number', name="addNewSession", min="1", max=validateInput, required)
                                                 input(type="submit", value="Add new session").btn.btn-primary.col-auto.shadow 
                     
                                     .col-4.col-lg-5
@@ -130,7 +145,7 @@ html(lang='en')
             if details.statusMonthly
                 .details-training
                     h4 Details training
-                    h5.text-center Between 2020-01-02 to 2020-01-31
+                    h5.text-center Between #{details.startSubscriptionMonthly.toISOString().substring(0,10)} to #{details.endSubscriptionMonthly.toISOString().substring(0,10)}
                     hr
                     .rest-session.shadow
                         h5.alert-alert-warning Rest Session

@@ -10,22 +10,32 @@ html(lang='en')
                     .col-8
                         h3.h3 Register new member
                         hr
-                        form(action='/register-member' method='post')
+                        form(action='/register-member', method='post', novalidate).needs-validation
                             .form-group
                                 label(for='firstName') First Name
-                                input#firstName.form-control(type='text', name='firstName')
+                                input#firstName.form-control(type='text', name='firstName', required, maxlength="30")
+                                .valid-feedback Looks good!
+                                .invalid-feedback You have to provide a first name!
                             .form-group
                                 label(for='lastName') Last Name
-                                input#lastName.form-control(type='text', name='lastName')
+                                input#lastName.form-control(type='text', name='lastName', required, maxlength="30")
+                                .valid-feedback Looks good!
+                                .invalid-feedback You have to provide a last name!
                             .form-group
                                 label(for='clientId') Client ID
-                                input#clientId.form-control(type='number', name='clientId')
+                                input#clientId.form-control(type='number', name='clientId', required)
+                                .valid-feedback Looks good!
+                                .invalid-feedback You have to provide ID number
                             .form-group
                                 label(for='membershipStartingDate') Start Member Date
-                                input#membershipStartingDate.form-control(type='date', name='membershipStartingDate')
+                                input#membershipStartingDate.form-control(type='text', name='membershipStartingDate',readonly="readonly", required)
+                                .valid-feedback Looks good!
+                                .invalid-feedback You have to provide start member Date
                             .form-group
                                 label(for='membershipExpiryDate') End Member Date
-                                input#membershipExpiryDate.form-control(type='date', name='membershipExpiryDate')
+                                input#membershipExpiryDate.form-control(type='text', name='membershipExpiryDate',readonly="readonly", required)
+                                .valid-feedback Looks good!
+                                .invalid-feedback You have to provide end member Date
                             button.btn.btn-danger.mr-5(type='reset') Reset
                             button.btn.btn-primary(type='submit') Submit
 

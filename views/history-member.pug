@@ -48,48 +48,11 @@ html(lang='en')
                                             .state-member.alert-success.shadow
                                                 | Active
 
-            //- .card.mt-5
-            //-     .card-header
-            //-         | History member
-            //-     .card-body
-            //-         .row
-            //-             .col-8
-            //-                 .row.text-center
-            //-                     .col-auto
-            //-                         h5.card-title Number Membership
-            //-                     .col-7
-            //-                         .alert.alert-primary(role='alert')
-            //-                             strong= details.clientId
-            //-                 .details
-            //-                     .row.align-items-center
-            //-                         .col-auto
-            //-                             | Name:
-            //-                         .col= (details.firstName + ' ' + details.lastName)
-            //-                         .w-100
-            //-                         .col-auto
-            //-                             | Status Subscription:
-            //-                         .col-auto
-            //-                             if !details.statusMonthly
-            //-                                 .alert.alert-danger(role='alert')
-            //-                                     strong  (You have to add new session) 
-            //-                             else
-            //-                                 .alert.alert-success(role='alert')
-            //-                                     strong Active
-            //-             .col-4.text-center
-            //-                 .row.h-100
-            //-                     .col-12
-            //-                         h5 State Member
-            //-                         if !details.statusMembership
-            //-                             .state-member.alert-danger
-            //-                                 | Expired 
-            //-                         else
-            //-                             .state-member.alert-success
-            //-                                 | Active
-
             hr
             .current-history
                 .table-responsive
                     table.example.table.table-hover.table-striped.table-bordered
+                        h4.text-center  Sessions Histroy  
                         thead.thead-dark
                             tr
                                 th(scope='col') #
@@ -99,7 +62,23 @@ html(lang='en')
                             each val, index in details.startSubscription
                                 tr
                                     td= index + 1
-                                    td= val.date.toISOString()
+                                    td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
                                     td= val.sessionNumber
 
+            hr
+            .current-history
+                .table-responsive
+                    h4.text-center  registerd session Histroy 
+                    table.example.table.table-hover.table-striped.table-bordered
+                        thead.thead-dark
+                            tr
+                                th(scope='col') #
+                                th(scope='col') Day
+                                th(scope='col') train Number
+                        tbody
+                            each val, index in details.currentSession
+                                tr
+                                    td= index + 1
+                                    td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
+                                    td= val.trainNumber
         include _scripts

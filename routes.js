@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { connection } = require("./db/connection-mongo");
+const querystring = require("querystring");
 const { Client } = require("./model/client");
 const {
   valuesOfSpecificMonth,
@@ -72,11 +73,12 @@ async function homePage(req, res) {
     });
 
     if (!clients) return res.send("Faild Get Home page!! cant fined client");
-    console.log(clients);
+    // console.log(clients);
 
     return res.render("home", {
       title: `Home ${titleBase}`,
-      clientsInfo: clients
+      clientsInfo: clients,
+      message: req.query.msg || ""
     });
   } catch (error) {
     res.send(error.message);
@@ -86,8 +88,6 @@ async function homePage(req, res) {
 // Register new member
 async function registerNewMember(req, res) {
   try {
-    console.log(+req.body.clientId);
-
     // create new course instance
     const client = new Client({
       clientId: +req.body.clientId,
@@ -98,11 +98,15 @@ async function registerNewMember(req, res) {
     });
 
     const result = await client.save();
-    console.log(result);
-    res.send("registered");
+    // console.log(result);
+    const query = querystring.stringify({
+      msg: "Successfully Registered."
+    });
+    res.redirect(`/details-member/${+req.body.clientId}?${query}`);
   } catch (error) {
-    console.error(error.message);
-    return res.send(error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -146,10 +150,15 @@ async function editMember(req, res) {
       membershipExpiryDate: req.body.membershipExpiryDate
     });
     const result = await client.save();
-    console.log(result);
-    return res.send("Edited");
+
+    const query = querystring.stringify({
+      msg: "Successfully Edited Member..."
+    });
+    res.redirect(`/details-member/${newId}?${query}`);
   } catch (error) {
-    return res.send(error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -270,7 +279,8 @@ async function detailsMember(req, res) {
 
     res.render("details-member", {
       title: `details-member ${titleBase}`,
-      details: details
+      details: details,
+      message: req.query.msg || ""
     });
   } catch (error) {
     return res.send("Faild Get details Number!!" + error.message);
@@ -344,13 +354,19 @@ async function newSession(req, res) {
     const id = +req.body.clientId;
     const addNewSession = +req.body.addNewSession;
 
-    if (!id || !addNewSession)
-      return res.send("Faild provide id and session number");
+    if (!id || !addNewSession) {
+      return res.render("error", {
+        errorMSG: "Faild provide session number"
+      });
+    }
 
     const client = await Client.findOne({ clientId: id });
 
-    if (!client)
-      return res.send("Faild Get details Number!! cant fined client");
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Faild cant fined client"
+      });
+    }
 
     const currentDate = new Date();
     const newSession = {
@@ -364,7 +380,6 @@ async function newSession(req, res) {
       date: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
     };
     const currenEndMonth = lastMonth.date;
-    console.log(lastMonth.date);
 
     const lastEndMonth =
       client.endSubscription[client.endSubscription.length - 1];
@@ -375,14 +390,15 @@ async function newSession(req, res) {
     }
 
     const result = await client.save();
-    return res.send(
-      "registered \n" +
-        result.startSubscription +
-        "\n " +
-        result.endSubscription
-    );
+
+    const query = querystring.stringify({
+      msg: "Successfully Add Session..."
+    });
+    res.redirect(`/details-member/${id}?${query}`);
   } catch (error) {
-    return res.send("Faild Add Session Number!!" + error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -421,9 +437,15 @@ async function deleteMember(req, res) {
     const client = await Client.findOneAndRemove({ clientId: id });
     if (!client)
       return res.send("Faild Delete Exist Member!! cant fined client");
-    res.send("Deleted");
+
+    const query = querystring.stringify({
+      msg: "Successfully Deleted Member..."
+    });
+    res.redirect(`/?${query}`);
   } catch (error) {
-    return res.send("Faild Delete Exist Member!! +++++" + error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
