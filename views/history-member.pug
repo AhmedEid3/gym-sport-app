@@ -7,7 +7,7 @@ html(lang='en')
         .container
             .card.shadow-lg
                 .card-header.shadow-sm
-                    h4 History member
+                    h4 Member History
                 .card-body
                     .row
                         .col-12.col-lg-7.mb-2.mb-lg-0
@@ -24,22 +24,27 @@ html(lang='en')
                                     .col-8
                                         .alert.alert-primary.shadow-sm(role='alert')
                                             strong #{`${details.firstName} ${details.lastName}`}
+                                .row.justify-content-between
+                                    .col-auto
+                                        a(href='#').back.btn.btn-info.shadow-lg Back
+                                    .col-auto
+                                        a(href='/').btn.btn-primary.text-white.shadow-lg Go to homepage
 
 
                         .col-12.col-lg-5.text-center
                             .state-membership.shadow-sm
                                 .row.align-items-baseline.h-100
                                     .col-5
-                                        h6.card-title Status Subscription
+                                        h6.card-title Subscription Status
                                     .col-7
                                         if !details.statusMonthly
                                             .alert.alert-danger.shadow(role='alert')
-                                                strong  (You have to add new session) 
+                                                strong  (You have to add a new session) 
                                         else
                                             .alert.alert-success.shadow(role='alert')
                                                 strong Active
                                     .col-5
-                                        h6.card-title State Membership
+                                        h6.card-title Membership Status
                                     .col-7
                                         if !details.statusMembership
                                             .state-member.alert-danger.shadow
@@ -52,36 +57,34 @@ html(lang='en')
             .current-history
                 .table-responsive
                     table.example.table.table-hover.table-striped.table-bordered
-                        h4.text-center  Sessions Histroy  
+                        h4.text-center  Added Sessions History 
                         thead.thead-dark
                             tr
                                 th(scope='col') #
-                                th(scope='col') Day
-                                th(scope='col') Session numbers
+                                th(scope='col') Sessions Number
+                                th(scope='col') Date
                         tbody
                             each val, index in details.startSubscription
                                 tr
                                     td= index + 1
-                                    //- td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
-                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
                                     td= val.sessionNumber
+                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
 
             hr
             .current-history
                 .table-responsive
-                    h4.text-center  registerd session Histroy 
+                    h4.text-center  Attendance History 
                     table.example.table.table-hover.table-striped.table-bordered
                         thead.thead-dark
                             tr
                                 th(scope='col') #
-                                th(scope='col') Day
-                                th(scope='col') train Number
+                                th(scope='col') Training Number
+                                th(scope='col') Date
                         tbody
                             each val, index in details.currentSession
                                 tr
                                     td= index + 1
-                                    //- td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
-                                    //- td= val.date.toString().slice(0,21)
-                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
                                     td= val.trainNumber
+                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
+
         include _scripts

@@ -32,11 +32,11 @@ html(lang='en')
                                             strong #{`${details.firstName} ${details.lastName}`}
 
                                     .col-4.col-lg-5.col-xl-4
-                                        h6.card-title Status Subscription
+                                        h6.card-title Subscription Status
                                     .col-8.col-lg-7.col-xl-8
                                         if !details.statusMonthly || details.restSession == 0
                                             .alert.alert-danger.shadow(role='alert')
-                                                strong  (You have to add new session)
+                                                strong  (You have to add a new session)
                                         else
                                             .alert.alert-success.shadow(role='alert')
                                                 strong Active
@@ -67,7 +67,7 @@ html(lang='en')
                                             .alert.alert-danger.shadow-sm(role='alert')
                                                 strong #{details.currentSession}
                                         .col-auto.col-lg-3.col-xl-auto
-                                            h6.card-title rest
+                                            h6.card-title remain
                                         .col-2.col-lg-3.col-xl-2
                                             .alert.alert-success.shadow-sm(role='alert')
                                                 strong #{ details.restSession}
@@ -109,12 +109,12 @@ html(lang='en')
                                                         button.close(type='button' data-dismiss='modal' aria-label='Close')
                                                         span(aria-hidden='true') &times;
                                                     .modal-body
-                                                        p Do you wanto to delete #{` ( ${details.firstName} ${details.lastName} )`}
+                                                        p Do you wanto to delete #{` ( ${details.firstName} ${details.lastName} )`} ?
                                                     .modal-footer
-                                                        button.btn.btn-secondary(type='button' data-dismiss='modal') Close
+                                                        button.btn.btn-secondary(type='button' data-dismiss='modal') Cancel
                                                         form(action="/delete-member", method="post")
                                                             input(type='hidden' value=details.clientId, name='clientId')
-                                                            input.btn.btn-danger(type='submit', value='Delete Member')
+                                                            input.btn.btn-danger(type='submit', value='Delete')
                                                         
                                         
                                     .col-auto.ml-auto.align-self-end
@@ -145,10 +145,10 @@ html(lang='en')
             if details.statusMonthly
                 .details-training
                     h4 Sessions  Details 
-                        small.text-center  ( #{details.startSubscriptionMonthly.toISOString().substring(0,10)} #[span.text-primary.font-weight-bold To] #{details.endSubscriptionMonthly.toISOString().substring(0,10)})
+                        small.text-center.text-primary.font-weight-bold  #[span.text-dark.font-weight-bold (] #{details.startSubscriptionMonthly.toISOString().substring(0,10)} #[span.text-dark.font-weight-bold To]  #{details.endSubscriptionMonthly.toISOString().substring(0,10)} #[span.text-dark.font-weight-bold )]
                     hr
                     .rest-session.shadow
-                        h5.alert-alert-warning Rest Session
+                        h5.alert-alert-warning Remaining Sessions
                         .row
                             - for (var i = 0; i < details.restSession; i++)
                                 .col-auto
@@ -156,11 +156,11 @@ html(lang='en')
                                         .alert.alert-dark(role='alert')
                                             .custom-control.custom-checkbox
                                                 input.custom-control-input(type='checkbox', id='customCheck'+i)
-                                                label.custom-control-label(for='customCheck'+i) register
+                                                label.custom-control-label(for='customCheck'+i) session #{i+1}
                             
                     if details.currentSessionArr
                         .rest-session.shadow
-                            h5 Registerd Session
+                            h5 Attended sessions
                             .row
                                 each val in details.currentSessionArr
                                     .col-auto

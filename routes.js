@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { connection } = require("./db/connection-mongo");
 const querystring = require("querystring");
-// const moment = require("moment-timezone");
+
 const { Client } = require("./model/client");
 const {
   valuesOfSpecificMonth,
@@ -50,10 +50,8 @@ function changePasswordAdmin(req, res) {
           console.error(err.message);
           return res.send("Faild!!");
         }
-        // console.log(oldPassword, req.body.oldPassword);
 
         if (oldPassword == req.body.oldPassword) {
-          // console.log("True");
           return res.send("Success@");
         }
         return res.send("Old Password Wrong");
@@ -78,7 +76,6 @@ async function homePage(req, res) {
         errorMSG: "Faild Get Home page!! cant fined client\n" + error.message
       });
     }
-    // console.log(clients);
 
     return res.render("home", {
       title: `Home ${titleBase}`,
@@ -105,7 +102,6 @@ async function registerNewMember(req, res) {
     });
 
     const result = await client.save();
-    // console.log(result);
     const query = querystring.stringify({
       msg: "Successfully Registered."
     });
@@ -169,7 +165,7 @@ async function editMember(req, res) {
     const result = await client.save();
 
     const query = querystring.stringify({
-      msg: "Successfully Edited Member..."
+      msg: "Successfully Modified..."
     });
     res.redirect(`/details-member/${newId}?${query}`);
   } catch (error) {
@@ -250,7 +246,6 @@ async function detailsMember(req, res) {
     let totalSessions;
 
     if (valuesStartMonth.length) {
-      // console.log(1);
       totalSessions = sumOfObj(valuesStartMonth, "sessionNumber");
       if (totalSessions) details.totalSessions = totalSessions;
     }
@@ -292,10 +287,6 @@ async function detailsMember(req, res) {
       client.membershipExpiryDate,
       currentDate
     );
-
-    // current Session Array
-
-    // console.log(details);
 
     res.render("details-member", {
       title: `details-member ${titleBase}`,
@@ -355,8 +346,6 @@ async function historyMember(req, res) {
       client.membershipExpiryDate,
       currentDate
     );
-
-    console.log(details);
 
     if (!client) {
       return res.render("error", {
@@ -419,7 +408,7 @@ async function newSession(req, res) {
     const result = await client.save();
 
     const query = querystring.stringify({
-      msg: "Successfully Add Session..."
+      msg: "Session added successfully..."
     });
     res.redirect(`/details-member/${id}?${query}`);
   } catch (error) {
@@ -453,7 +442,6 @@ async function remainSession(req, res) {
       date: currentDate,
       trainNumber: trainNumber
     };
-    console.log(currentDate);
 
     client.currentSession.push(newTrainNumber);
 

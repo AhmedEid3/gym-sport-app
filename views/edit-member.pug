@@ -15,31 +15,31 @@ html(lang='en')
                                 label(for='firstName') First Name
                                 input#firstName.form-control(type='text', name='firstName', value=clientInfo.firstName, , required, maxlength="30")
                                 .valid-feedback Looks good!
-                                .invalid-feedback You have to provide a first name!
+                                .invalid-feedback You have to provide first name!
                             .form-group
                                 label(for='lastName') Last Name
                                 input#lastName.form-control(type='text', name='lastName', value=clientInfo.lastName, required, maxlength="30")
                                 .valid-feedback Looks good!
-                                .invalid-feedback You have to provide a last name!
+                                .invalid-feedback You have to provide last name!
                             
                             .form-group
-                                label Client ID
+                                label Current ID
                                 label#clientId.form-control.bg-light=clientInfo.clientId
                             .form-group
                                 input#clientId.form-control(type='hidden', name='clientId', value=clientInfo.clientId)
                             .form-group
-                                label(for='newClientId') New Client ID
+                                label(for='newClientId') New ID
                                 input#newClientId.form-control(type='number', name='newClientId')
                             .form-group
                                 label(for='membershipStartingDate') Membership Starting Date
                                 input#membershipStartingDate.form-control(type='text', name='membershipStartingDate',readonly="readonly", required, value=new Date(clientInfo.membershipStartingDate).toISOString().slice(0,10))
                                 .valid-feedback Looks good!
-                                .invalid-feedback You have to provide start member Date
+                                .invalid-feedback You have to provide date
                             .form-group
                                 label(for='membershipExpiryDate') Membership Expiry Date
                                 input#membershipExpiryDate.form-control(type='text', name='membershipExpiryDate',readonly="readonly", required, value=new Date(clientInfo.membershipExpiryDate).toISOString().slice(0,10))
                                 .valid-feedback Looks good!
-                                .invalid-feedback You have to provide end member Date
+                                .invalid-feedback You have to provide date
                             a.btn.btn-danger.back.mr-5 Back
                             button.btn.btn-primary(type='submit') Save
 
