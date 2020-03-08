@@ -27,6 +27,9 @@ body {
 #clientId.form-control {
   cursor: not-allowed;
 }
+.register-member #clientId.form-control {
+  cursor: auto;
+}
 .details-training {
   margin-top: 15px;
 }
@@ -79,4 +82,8 @@ body {
 
 .train-number {
   margin-top: 15px;
+}
+
+.form-control[readonly] {
+  background-color: transparent;
 }

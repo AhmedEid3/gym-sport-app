@@ -75,3 +75,9 @@ app.get("/history-member/:clientId", (req, res) => {
 });
 
 app.listen(port, () => console.log(`GYM app listening on port ${port}!`));
+const moment = require("moment-timezone");
+let dd = moment(new Date())
+  .format()
+  .valueOf();
+console.log(dd);
+console.log(new Date(dd));

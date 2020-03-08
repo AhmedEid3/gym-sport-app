@@ -6,7 +6,7 @@ html(lang='en')
         .container
             .card.shadow-lg
                 .card-header.shadow-sm
-                    h4 Details member 
+                    h4 Membership information 
                 .card-body
                     .row.justify-content-center
                         if message
@@ -34,23 +34,23 @@ html(lang='en')
                                     .col-4.col-lg-5.col-xl-4
                                         h6.card-title Status Subscription
                                     .col-8.col-lg-7.col-xl-8
-                                        if !details.statusMonthly
+                                        if !details.statusMonthly || details.restSession == 0
                                             .alert.alert-danger.shadow(role='alert')
-                                                strong  (You have to add new session) 
+                                                strong  (You have to add new session)
                                         else
                                             .alert.alert-success.shadow(role='alert')
                                                 strong Active
 
                                     if details.endSubscriptionMonthly
                                         .col-4.col-lg-5.col-xl-4
-                                            h6.card-title Start Date Monthly
+                                            h6.card-title Subscription Date
                                         .col-8.col-lg-7.col-xl-8
                                             .alert.alert-primary.shadow-sm(role='alert')
                                                 strong #{details.startSubscriptionMonthly.toISOString().substring(0,10)}
                                             
                                     if details.endSubscriptionMonthly
                                             .col-4.col-lg-5.col-xl-4
-                                                h6.card-title End Date Monthly
+                                                h6.card-title Subscription Expiry
                                             .col-8.col-lg-7.col-xl-8
                                                 .alert.alert-primary.shadow-sm(role='alert')
                                                     strong #{details.endSubscriptionMonthly.toISOString().substring(0,10)}
@@ -76,7 +76,7 @@ html(lang='en')
                             .state-membership.shadow-sm
                                 .row.align-items-baseline.h-100
                                     .col-5
-                                        h6.card-title State Membership
+                                        h6.card-title Membership Status
                                     .col-7
                                         if !details.statusMembership
                                             .state-member.alert-danger.shadow
@@ -91,7 +91,7 @@ html(lang='en')
                                             strong #{details.membershipStartingDate.toISOString().substring(0,10)}
                                     
                                     .col-5 
-                                        h6.card-title Expiry Date
+                                        h6.card-title Membership Expiry
                                     .col-7
                                         .alert.alert-primary.shadow-sm(role='alert')
                                             strong #{details.membershipExpiryDate.toISOString().substring(0,10)}
@@ -118,10 +118,10 @@ html(lang='en')
                                                         
                                         
                                     .col-auto.ml-auto.align-self-end
-                                        a(href=`/edit-member/${details.clientId}`).btn.btn-primary.shadow  Edit/ Renew
+                                        a(href=`/edit-member/${details.clientId}`).btn.btn-primary.shadow  Edit / Renew
                         .col-12
                             .rest-session.shadow-sm
-                                h5 Add new session 
+                                h6 Add a New Session 
                                 .row
                                     .col-8.col-lg-7
                                         form(action="/new-session", method="post")
@@ -136,7 +136,7 @@ html(lang='en')
                                             .form-group.row.ml-1
                                                 input#clientId.form-control.mr-5.col-auto(type='hidden', name="clientId" , value=details.clientId)
                                                 input#addNewSession.form-control.mr-5.col-5.col-lg-3(type='number', name="addNewSession", min="1", max=validateInput, required)
-                                                input(type="submit", value="Add new session").btn.btn-primary.col-auto.shadow 
+                                                input(type="submit", value="Add").btn.btn-primary.col-auto.shadow 
                     
                                     .col-4.col-lg-5
                                         a(href=`/history-member/${details.clientId}`).ml-4.btn.btn-info.shadow  Show History
@@ -144,8 +144,8 @@ html(lang='en')
         .container
             if details.statusMonthly
                 .details-training
-                    h4 Details training
-                    h5.text-center Between #{details.startSubscriptionMonthly.toISOString().substring(0,10)} to #{details.endSubscriptionMonthly.toISOString().substring(0,10)}
+                    h4 Sessions  Details 
+                        small.text-center  ( #{details.startSubscriptionMonthly.toISOString().substring(0,10)} #[span.text-primary.font-weight-bold To] #{details.endSubscriptionMonthly.toISOString().substring(0,10)})
                     hr
                     .rest-session.shadow
                         h5.alert-alert-warning Rest Session

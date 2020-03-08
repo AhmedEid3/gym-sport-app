@@ -8,7 +8,7 @@ html(lang='en')
             .register-member
                 .row.justify-content-center
                     .col-8
-                        h3.h3 Register new member
+                        h4.h4 Register a New Member
                         hr
                         form(action='/register-member', method='post', novalidate).needs-validation
                             .form-group
@@ -22,17 +22,17 @@ html(lang='en')
                                 .valid-feedback Looks good!
                                 .invalid-feedback You have to provide a last name!
                             .form-group
-                                label(for='clientId') Client ID
+                                label(for='clientId') Member ID
                                 input#clientId.form-control(type='number', name='clientId', required)
                                 .valid-feedback Looks good!
                                 .invalid-feedback You have to provide ID number
                             .form-group
-                                label(for='membershipStartingDate') Start Member Date
+                                label(for='membershipStartingDate') Membership Date
                                 input#membershipStartingDate.form-control(type='text', name='membershipStartingDate',readonly="readonly", required)
                                 .valid-feedback Looks good!
                                 .invalid-feedback You have to provide start member Date
                             .form-group
-                                label(for='membershipExpiryDate') End Member Date
+                                label(for='membershipExpiryDate') Membership Expiry Date
                                 input#membershipExpiryDate.form-control(type='text', name='membershipExpiryDate',readonly="readonly", required)
                                 .valid-feedback Looks good!
                                 .invalid-feedback You have to provide end member Date

@@ -62,7 +62,8 @@ html(lang='en')
                             each val, index in details.startSubscription
                                 tr
                                     td= index + 1
-                                    td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
+                                    //- td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
+                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
                                     td= val.sessionNumber
 
             hr
@@ -79,6 +80,8 @@ html(lang='en')
                             each val, index in details.currentSession
                                 tr
                                     td= index + 1
-                                    td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
+                                    //- td= val.date.toISOString().slice(0,16).split('T').join(" | Time: ")
+                                    //- td= val.date.toString().slice(0,21)
+                                    td= val.date.toLocaleString().split(',').join(" | Time: ")
                                     td= val.trainNumber
         include _scripts

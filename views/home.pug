@@ -31,9 +31,9 @@ html(lang='en')
                         thead.thead-dark
                             tr
                                 th(scope='col') #
-                                th(scope='col')  Member ID
+                                th(scope='col') Member ID
                                 th(scope='col') Name
-                                th(scope='col') Show member
+                                th(scope='col') Members
                         tbody
                             each value, index in clientsInfo
                                 tr
@@ -41,6 +41,6 @@ html(lang='en')
                                     td= value.clientId
                                     td= value.firstName + ' ' + value.lastName
                                     td
-                                        a(href='/details-member/'+value.clientId).btn.btn-primary Show member
+                                        a(href='/details-member/'+value.clientId).btn.btn-primary Member profile
 
         include _scripts

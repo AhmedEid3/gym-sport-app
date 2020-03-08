@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { connection } = require("./db/connection-mongo");
 const querystring = require("querystring");
+// const moment = require("moment-timezone");
 const { Client } = require("./model/client");
 const {
   valuesOfSpecificMonth,
@@ -49,10 +50,10 @@ function changePasswordAdmin(req, res) {
           console.error(err.message);
           return res.send("Faild!!");
         }
-        console.log(oldPassword, req.body.oldPassword);
+        // console.log(oldPassword, req.body.oldPassword);
 
         if (oldPassword == req.body.oldPassword) {
-          console.log("True");
+          // console.log("True");
           return res.send("Success@");
         }
         return res.send("Old Password Wrong");
@@ -72,7 +73,11 @@ async function homePage(req, res) {
       lastName: 1
     });
 
-    if (!clients) return res.send("Faild Get Home page!! cant fined client");
+    if (!clients) {
+      return res.render("error", {
+        errorMSG: "Faild Get Home page!! cant fined client\n" + error.message
+      });
+    }
     // console.log(clients);
 
     return res.render("home", {
@@ -81,7 +86,9 @@ async function homePage(req, res) {
       message: req.query.msg || ""
     });
   } catch (error) {
-    res.send(error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -121,14 +128,20 @@ async function getEditMember(req, res) {
       membershipStartingDate: 1,
       membershipExpiryDate: 1
     });
-    console.log(client);
-    if (!client) return res.send("Faild Get Exsit Number!! cant fined client");
+
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Cant Find a Member With This ID"
+      });
+    }
     res.render("edit-member", {
       title: `edit-member Page ${titleBase}`,
       clientInfo: client
     });
   } catch (error) {
-    return res.send("Faild Get Exsit Number!!" + error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -140,7 +153,11 @@ async function editMember(req, res) {
     let newId = +req.body.newClientId;
     if (!newId) newId = id;
     const client = await Client.findOne({ clientId: id });
-    if (!client) res.send("Faild Get Exsit Number!! cant fined client");
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Can't Find a Member With This ID"
+      });
+    }
 
     client.set({
       clientId: newId,
@@ -179,8 +196,11 @@ async function detailsMember(req, res) {
       currentSession: 1
     });
 
-    if (!client)
-      return res.send("Faild Get details Number!! cant fined client");
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Can't Find a Member With This ID"
+      });
+    }
 
     let details = {
       clientId: client.clientId,
@@ -230,7 +250,7 @@ async function detailsMember(req, res) {
     let totalSessions;
 
     if (valuesStartMonth.length) {
-      console.log(1);
+      // console.log(1);
       totalSessions = sumOfObj(valuesStartMonth, "sessionNumber");
       if (totalSessions) details.totalSessions = totalSessions;
     }
@@ -283,7 +303,9 @@ async function detailsMember(req, res) {
       message: req.query.msg || ""
     });
   } catch (error) {
-    return res.send("Faild Get details Number!!" + error.message);
+    return res.render("error", {
+      errorMSG: "Can't Find a Member With This ID"
+    });
   }
 }
 
@@ -336,15 +358,20 @@ async function historyMember(req, res) {
 
     console.log(details);
 
-    if (!client)
-      return res.send("Faild Get details Number!! cant fined client");
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Can't Find a Member With This ID"
+      });
+    }
 
     return res.render("history-member", {
       title: `history-member ${titleBase}`,
       details: details
     });
   } catch (error) {
-    res.send(error.message);
+    return res.render("error", {
+      errorMSG: error.message
+    });
   }
 }
 
@@ -408,24 +435,34 @@ async function remainSession(req, res) {
     const id = +req.body.clientId;
     const trainNumber = +req.body.trainNumber;
 
-    if (!id || !trainNumber)
-      return res.send("Faild provide id and train number");
+    if (!id || !trainNumber) {
+      return res.render("error", {
+        errorMSG: error.message
+      });
+    }
 
     const client = await Client.findOne({ clientId: id });
 
-    if (!client) return res.send("Faild cant fined client");
-
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Can't Find a Member With This ID"
+      });
+    }
     const currentDate = new Date();
     const newTrainNumber = {
       date: currentDate,
       trainNumber: trainNumber
     };
+    console.log(currentDate);
+
     client.currentSession.push(newTrainNumber);
 
     const result = await client.save();
     return res.send(currentDate);
   } catch (error) {
-    return res.send("Faild Add Train Number!!" + error.message);
+    return res.render("error", {
+      errorMSG: "Faild Add Train Number!!" + error.message
+    });
   }
 }
 
@@ -435,8 +472,11 @@ async function deleteMember(req, res) {
     const id = +req.body.clientId;
 
     const client = await Client.findOneAndRemove({ clientId: id });
-    if (!client)
-      return res.send("Faild Delete Exist Member!! cant fined client");
+    if (!client) {
+      return res.render("error", {
+        errorMSG: "Faild Delete a Member!! \n" + error.message
+      });
+    }
 
     const query = querystring.stringify({
       msg: "Successfully Deleted Member..."
