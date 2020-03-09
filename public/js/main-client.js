@@ -22,7 +22,9 @@ $(document).ready(function() {
             date.toLocaleString() + " +1"
           );
           $($(self).parents(".col-auto")).fadeOut(1000);
-          location.reload();
+          // location.reload();
+          window.location.href =
+            "http://localhost/details-member/" + $(".clientID").text();
         }
       );
     }
@@ -108,5 +110,10 @@ $(document).ready(function() {
   });
 });
 
-// var dd = 7;
-// console.log(moment().format());
+// spinner loading
+$(window).on("load", function() {
+  // Spinner Loading
+  $(".spinner-loading").fadeOut(function() {
+    $(this).remove();
+  });
+});

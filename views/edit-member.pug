@@ -40,7 +40,7 @@ html(lang='en')
                                 input#membershipExpiryDate.form-control(type='text', name='membershipExpiryDate',readonly="readonly", required, value=new Date(clientInfo.membershipExpiryDate).toISOString().slice(0,10))
                                 .valid-feedback Looks good!
                                 .invalid-feedback You have to provide date
-                            a.btn.btn-danger.back.mr-5 Back
+                            a(href='/details-member/'+clientInfo.clientId).btn.btn-danger.mr-5 Back
                             button.btn.btn-primary(type='submit') Save
 
         include _scripts

@@ -24,23 +24,23 @@ html(lang='en')
                                 h5.card-title #{clientsInfo.length}
             hr
        
-        if clientsInfo.length
-            .container
-                .table-responsive.shadow-lg
-                    table.example.table.table-hover.table-striped.table-bordered
-                        thead.thead-dark
+
+        .container
+            .table-responsive.shadow-lg
+                table.example.table.table-hover.table-striped.table-bordered
+                    thead.thead-dark
+                        tr
+                            th(scope='col') #
+                            th(scope='col') Member ID
+                            th(scope='col') Name
+                            th(scope='col') Members
+                    tbody
+                        each value, index in clientsInfo
                             tr
-                                th(scope='col') #
-                                th(scope='col') Member ID
-                                th(scope='col') Name
-                                th(scope='col') Members
-                        tbody
-                            each value, index in clientsInfo
-                                tr
-                                    th(scope='row') #{index + 1}
-                                    td= value.clientId
-                                    td= value.firstName + ' ' + value.lastName
-                                    td
-                                        a(href='/details-member/'+value.clientId).btn.btn-primary Member profile
+                                th(scope='row') #{index + 1}
+                                td= value.clientId
+                                td= value.firstName + ' ' + value.lastName
+                                td
+                                    a(href='/details-member/'+value.clientId).btn.btn-primary Member profile
 
         include _scripts
